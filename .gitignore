@@ -1,0 +1,11 @@
+*.gem
+*.rbc
+/.config
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/tmp/
+/.bundle.
+/.vscode/
+/vendor/bundle
