@@ -174,7 +174,7 @@ PLATFORMS
 DEPENDENCIES
   byebug
   gosu (~> 1.4.4)
-  hasu (= 0.1.7)
+  hasu (~> 0.1.7)
   pry
   pry-byebug
   pry-stack_explorer

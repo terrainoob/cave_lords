@@ -19,6 +19,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Install system dependencies
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt update
+        sudo apt-get update
+        sudo apt-get -y install build-essential libsdl2-dev libgl1-mesa-dev libopenal-dev libgmp-dev libfontconfig1-dev
+        while read -r cmd
+        do
+          eval sudo $cmd
+        done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
     - name: Set up Ruby
     # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
     # change this to (see https://github.com/ruby/setup-ruby#versioning):

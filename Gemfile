@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.2.0'
 
 gem 'gosu', '~> 1.4.4'
-gem 'hasu', '0.1.7'
+gem 'hasu', '~> 0.1.7'
 
 group :development, :test do
   gem 'byebug'
