@@ -1,6 +1,6 @@
-![RSpec(Main Branch)](https://github.com/terrainoob/cave_lords/.github/workflows/ruby.yml/badge.svg?branch=main)
+[![RSpec(Main)](https://github.com/terrainoob/cave_lords/actions/workflows/ruby.yml/badge.svg?branch=main)](https://github.com/terrainoob/cave_lords/actions/workflows/ruby.yml)
 
-![RSpec(Develop Branch)](https://github.com/terrainoob/cave_lords/.github/workflows/ruby.yml/badge.svg?branch=develop)
+[![RSpec(Develop)](https://github.com/terrainoob/cave_lords/actions/workflows/ruby.yml/badge.svg?branch=develop)](https://github.com/terrainoob/cave_lords/actions/workflows/ruby.yml)
 
 Welcome to Cave Lords!
 
