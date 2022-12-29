@@ -1,0 +1,12 @@
+AllCops:
+  TargetRubyVersion: 3.2.0
+  NewCops: enable
+
+Layout/LineLength:
+  Max: 240
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
