@@ -1,3 +1,7 @@
+![RSpec(Main Branch)](https://github.com/terrainoob/cave_lords/.github/workflows/ruby.yml/badge.svg?branch=main)
+
+![RSpec(Develop Branch)](https://github.com/terrainoob/cave_lords/.github/workflows/ruby.yml/badge.svg?branch=develop)
+
 Welcome to Cave Lords!
 
 This is just a community learning project for game dev in Ruby with Gosu. We'll be doing TDD with RSpec. I'm a complete n00b at game dev, so we'll learn together!
