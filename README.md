@@ -2,6 +2,7 @@
 
 
 # Welcome to Cave Lords!
+![Orky](/mygame/images/cave_lords_icon_4.png)
 
 This is a community learning project for game dev in Ruby with DragonRuby. We'll be doing TDD with RSpec. I'm a complete n00b at game dev, so we'll learn together!
 
@@ -27,7 +28,7 @@ There are lots of ways to contribute to this project!  And most of them don't co
 
 - test the game and create bug tickets if you break something!
 - suggest improvements to the game or the code. Throw an enhancement ticket in!
-- pick a ticket and fix it with a PR you freakin' genius!
+- pick a ticket and fix it with a PR you freakin' genius! (make sure you branch from "develop")
 - join me on the live stream on YouTube or Twitch every Tuesday at 3pm EST and be part of the discussion! Snarky comments, sarcasm and Dad Jokes are welcome!
 - join me on [Discord](https://discord.gg/d9xWFjBraq) and hang out in the cave-lords-pond!
 - follow me on [Twitter](https://twitter.com/duckiedevshow) cause it makes me feel loved!
