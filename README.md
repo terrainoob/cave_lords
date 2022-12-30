@@ -2,7 +2,7 @@
 
 
 # Welcome to Cave Lords!
-![Orky](/mygame/images/cave_lords_icon_4.png)
+<img src="/mygame/images/cave_lords_icon_4.png" alt="Orky" width="100" height="100">
 
 This is a community learning project for game dev in Ruby with DragonRuby. We'll be doing TDD with RSpec. I'm a complete n00b at game dev, so we'll learn together!
 
