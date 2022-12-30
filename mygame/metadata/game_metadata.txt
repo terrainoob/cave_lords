@@ -1,7 +1,7 @@
 # Remove the pound sign and leading space for the properties below before publishing your game.
-# devid=myname
-# devtitle=My Name
-# gameid=mygame
+devid=terrainoob
+devtitle=Chris Booth
+gameid=cave_lords
 gametitle=Cave Lords
 # version=0.1
 # icon=metadata/icon.png
