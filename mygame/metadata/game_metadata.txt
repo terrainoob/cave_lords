@@ -2,7 +2,7 @@
 # devid=myname
 # devtitle=My Name
 # gameid=mygame
-# gametitle=My Game
+gametitle=Cave Lords
 # version=0.1
 # icon=metadata/icon.png
 
