@@ -1,5 +1,5 @@
 RSpec.configure do |config|
-  Dir["#{File.dirname(__FILE__)}/../app/**/*.rb"].each {|file| require file }
+  Dir["#{File.dirname(__FILE__)}/../mygame/app/**/*.rb"].each {|file| require file }
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
