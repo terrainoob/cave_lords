@@ -3,6 +3,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.2.0'
 
+gem 'perlin'
+
 group :development, :test do
   gem 'byebug'
   gem 'pry'
