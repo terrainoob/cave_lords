@@ -49,7 +49,7 @@ There are lots of ways to contribute to this project!  And most of them don't co
 
 ## Participation DOs and DON'Ts
 - DO be vocal (not rude) about ideas!  All ideas are good ideas.  But not ALL ideas can be included.
-- DO submit tickets if you find/notice bugs!
+- DO submit tickets if you find/notice bugs, or have ideas for improvements or features!
 - DO make a quick scan to see if your bug/idea has already been ticketed
 - DO feel free to pick a ticket and give a PR a shot, you awesome coder you! (if you're a new programmer, try [this search](https://github.com/terrainoob/cave_lords/labels/good%20first%20issue) to find good first PRs)
 - DO write RSpec tests for your PRs! PRs must have passing RSpec proofs if at all possible. If you're not sure how to test something, hop in the [Discord]https://discord.gg/d9xWFjBraq and ask.  We'll help!
