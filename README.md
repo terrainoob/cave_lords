@@ -7,7 +7,7 @@
 This is a community learning project for game dev in Ruby. We'll be using [DragonRuby](https://dragonruby.org/toolkit/game), lots of POROs, and doing TDD with RSpec. I'm a complete n00b at game dev, so if nothing else, you'll get to see me struggle live! ;)
 
 ## What Kind of Game is This?
-The game will _attempt_ to be a top down, sprite-based, deep colony sim (a-la [Dwarf Fortress](http://www.bay12games.com/dwarves/), [Rimworld](https://rimworldgame.com/), [Prison Architect](https://www.paradoxinteractive.com/games/prison-architect/about), etc.) Except we'll be the "bad guys" in this one! Our citizens will be orcs/goblins/somekindanasties instead of those weirdo hooman creatures (because that's just boring)!
+The game will _attempt_ to be a top down, sprite-based, deep colony sim (like [Dwarf Fortress](http://www.bay12games.com/dwarves/), [Rimworld](https://rimworldgame.com/), [Prison Architect](https://www.paradoxinteractive.com/games/prison-architect/about), etc.) except we'll be the "bad guys" in this one! Our citizens will be orcs/goblins/somekindanasties instead of those weirdo hooman creatures (because that's just boring)!
 
 Initially, I'm planning to divide the code into two major parts: procedural world generation and game play. No idea how to do either, so we'll learn together!
 
@@ -15,7 +15,7 @@ Initially, I'm planning to divide the code into two major parts: procedural worl
 1. Because game dev is a very different way of thinking from web dev and this will stretch the programming muscles
 2. Because I'm a big gamer and I've always wanted to understand better how this stuff works.
 3. Because it seemed like folks were interested in this, so it should make for an entertaining show.
-4. Because I keep wanting to play this game but nobody's made it yet! So we will!
+4. Because I keep wanting to play this game, but nobody's made it yet! So *we* will!
 5. Because I want to, so there!
 
 ## Concepts we'll dig into (not exhaustive)
@@ -24,7 +24,7 @@ Initially, I'm planning to divide the code into two major parts: procedural worl
 - [observer patterns](https://medium.com/@nakshtra17/ruby-design-pattern-observer-method-eb7cb2a8d382)
 - [state machines](https://blog.appsignal.com/2022/06/22/state-machines-in-ruby-an-introduction.html)
 - array/hash wizardry
-- loop efficiencies (game are loops within loops within loops. Efficiency is super important!)
+- loop efficiencies (games are loops within loops within loops. Efficiency is super important!)
 - efficient in-memory data structures
 - serializing/deserializing efficiently (game save/load)
 - learning how to test game operation
@@ -42,20 +42,23 @@ There are lots of ways to contribute to this project!  And most of them don't co
 - suggest improvements to the game or the code. Throw an enhancement ticket in!
 - pick a ticket and fix it with a PR you freakin' genius! (make sure you branch from "develop")
 - join me on the live stream on YouTube or Twitch every Tuesday at 3pm EST and be part of the discussion! Snarky comments, sarcasm and Dad Jokes are welcome!
+- Invite your friends to come with you!
+- Tweet about what awesome, fun times you have hanging out with us so other people will know!
 - join me on [Discord](https://discord.gg/d9xWFjBraq) and hang out in the cave-lords-pond!
 - follow me on [Twitter](https://twitter.com/duckiedevshow) cause it makes me feel loved!
 - subscribe on [YouTube](https://www.youtube.com/@rubberduckdevshow) cause it makes me feel loved!
 - follow me on [Twitch](https://www.twitch.tv/rubberduckdevshow) cause it makes me feel...wait a tick, I sense a pattern here!
 
 ## Participation DOs and DON'Ts
-- DO be vocal (not rude) about ideas!  All ideas are good ideas.  But not ALL ideas can be included.
+- DO be vocal (not rude) about ideas!  All ideas are good ideas.  Not ALL ideas can be included, but every idea will teach us something!
 - DO submit tickets if you find/notice bugs, or have ideas for improvements or features!
 - DO make a quick scan to see if your bug/idea has already been ticketed
 - DO feel free to pick a ticket and give a PR a shot, you awesome coder you! (if you're a new programmer, try [this search](https://github.com/terrainoob/cave_lords/labels/good%20first%20issue) to find good first PRs)
 - DO write RSpec tests for your PRs! PRs must have passing RSpec proofs if at all possible. If you're not sure how to test something, hop in the [Discord](https://discord.gg/d9xWFjBraq) and ask.  We'll help!
+- DO try to give newer devs a chance to work on issues labelled _"good first issue"_
 - DO think hard about [single responsibility](https://en.wikipedia.org/wiki/Single-responsibility_principle) and [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns). These things are important to keep game code clean and understandable. It can quickly turn nasty if these things aren't front-of-mind!
 - DO review others' PRs to learn and share your insights! (I only have one brain and limited time so I'll need some community backup!)
-- DO feel free to fork this repo and then you do you baby!
+- DO feel free to fork this repo and get as far ahead of the show as you like (you do you baby)! Just make sure to read the license section below so you don't do something naughty!
 - DON'T get ahead of the show in the PRs.  Only work on PRs that are relevent to the current state of the game and things we've talked about on the show.  Otherwise, I'll get very confused.
 - DON'T write spaghetti code! It's full of carbs! And I'm on keto!
 - DON'T sell, package or redistribute this code. It's other people's work, given to the community freely. Taking advantage of that is a dick move. (though using concepts and learnings from this to write your own game is HIGHLY encouraged! I'll want to play it!)
@@ -68,3 +71,12 @@ You're so sweet! Here are the places I hang out the most:
 - [Twitch](https://www.twitch.tv/rubberduckdevshow)
 - [Twitter](https://twitter.com/duckiedevshow) (@duckiedevshow)
 - Here on Github (duh)
+
+## Licensing
+This repository and it's code will be governed by the [RSALV2](https://redis.com/legal/rsalv2-agreement/) license agreement. (Thanks _@mediafinger_ for the suggestion!)
+
+Please read the license, but basically, what I'm trying to accomplish is:
+- you can use this code to learn from, contribute to, and spread knowledge (that's the whole point of this project)
+- you can't sell it or make money from it.
+
+**I personally promise**: If this work DOES ever get monitized as a product in some way (like for some reason people buy it on itch.io or something), the TOTALITY of any monitary gains will be donated, in full, to **reputable** charities that serve disadvantaged and/or sick children.
