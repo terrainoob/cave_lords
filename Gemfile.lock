@@ -59,7 +59,6 @@ GEM
     parser (3.1.2.1)
       ast (~> 2.4.1)
     path_expander (1.1.1)
-    perlin (0.2.2)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -169,7 +168,6 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
-  perlin
   pry
   pry-byebug
   pry-stack_explorer
