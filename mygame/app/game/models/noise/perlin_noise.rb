@@ -1,6 +1,6 @@
 # copied from https://github.com/dabroz/mruby-perlin-noise
 
-require 'app/models/noise/perlin/curve.rb'
+# require 'app/models/noise/curve.rb'
 module Perlin
   class Noise
     DEFAULT_OPTIONS = {

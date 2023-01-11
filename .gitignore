@@ -10,3 +10,4 @@
 /.vscode/
 /vendor/bundle
 /logs/
+.byebug_history
