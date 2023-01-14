@@ -1,85 +1,63 @@
-# copied from https://github.com/dabroz/mruby-perlin-noise
-
-# require 'app/models/noise/curve.rb'
-module Perlin
-  class Noise
-    DEFAULT_OPTIONS = {
-      :interval => 256,
-      :curve => Perlin::Curve::QUINTIC,
-      :seed => nil
-    }
-
-    def initialize dim, options = {}
-      options = DEFAULT_OPTIONS.merge options
-
-      @dim = dim
-      @interval = options.fetch(:interval)
-      @curve = options.fetch(:curve)
-      @seed = options.fetch(:seed)
-
-      raise ArgumentError.new("Invalid dimension: must be a positive integer")  unless @dim.is_a?(Fixnum) && @dim > 0
-      raise ArgumentError.new("Invalid interval: must be a positive integer")   unless @interval.is_a?(Fixnum) && @interval > 0
-      raise ArgumentError.new("Invalid curve specified: must be a Proc object") unless @curve.is_a?(Proc)
-      raise ArgumentError.new("Invalid seed: must be a number")                 unless @seed.nil? || @seed.is_a?(Numeric)
-
-      # Generate pseudo-random gradient vector for each grid point
-      @gradient_table = Perlin::GradientTable.new @dim, @interval, @seed
+module Noise
+  class PerlinNoise < Noise::Base
+    def initialize(width, height, random = Random.new)
+      super
+      @p = (0...(@width > @height ? @width : @height)).to_a.shuffle(random) * 2 #use this line for DR
+      # @p = (0...(@width > @height ? @width : @height)).to_a.shuffle(random: random) * 2 # use this line for rspec
     end
 
-    # @param [*coords] Coordinates
-    # @return [Float] Noise value between (-1..1)
-    def [] *coords
-      raise ArgumentError.new("Invalid coordinates") unless coords.length == @dim
+    def noise(octave)
+      noise     = array { nil }
+      period    = 1 << octave
+      frequency = 1.0 / period
 
-      coords = Vector[*coords]
-      cell = Vector[*coords.map(&:to_i)]
-      diff = coords - cell
+      @width.times do |x|
+        xa = (x * frequency) % (@width * frequency)
+        x1 = xa.to_i
+        x2 = (x1 + 1) % (@width * frequency)
 
-      # Calculate noise factor at each surrouning vertex
-      nf = {}
-      iterate @dim, 2 do |idx|
-        idx = Vector[*idx]
+        xf = xa - xa.to_i
+        xb = fade(xf)
 
-        # "The value of each gradient ramp is computed by means of a scalar
-        # product (dot product) between the gradient vectors of each grid point
-        # and the vectors from the grid points."
-        gv = @gradient_table[ * (cell + idx).to_a ]
-        nf[idx.to_a] = gv.inner_product(diff - idx)
-      end
+        @height.times do |y|
+          ya = (y * frequency) % (@height * frequency)
+          y1 = ya.to_i
+          y2 = (y1 + 1) % (@height * frequency)
 
-      dim = @dim
-      diff.to_a.each do |u|
-        bu = @curve.call u
+          yf = ya - ya.to_i
+          yb = fade(yf)
 
-        # Pair-wise interpolation, trimming down dimensions
-        iterate dim, 2 do |idx1|
-          next if idx1.first == 1
+          top    = interpolate(gradient(@p[@p[x1] + y1], xf, yf), gradient(@p[@p[x2] + y1], xf - 1, yf), xb)
+          bottom = interpolate(gradient(@p[@p[x1] + y2], xf, yf - 1), gradient(@p[@p[x2] + y2], xf - 1, yf - 1), xb)
 
-          idx2 = idx1.dup
-          idx2[0] = 1
-          idx3 = idx1[1..-1]
-
-          nf[idx3] = nf[idx1] + bu * (nf[idx2] - nf[idx1])
-        end
-        dim -= 1
-      end
-      (nf[[]] + 1) * 0.5
-    end
-
-  private
-    def iterate dim, length, &block
-      iterate_recursive dim, length, Array.new(dim, 0), &block
-    end
-
-    def iterate_recursive dim, length, idx, &block
-      length.times do |i|
-        idx[dim - 1] = i
-        if dim == 1
-          yield idx
-        else
-          iterate_recursive dim - 1, length, idx, &block
+          noise[x][y] = (interpolate(top, bottom, yb) + 1) / 2
         end
       end
+
+      noise
     end
-  end#Noise
-end#Perlin
+
+    private
+
+    def interpolate(a, b, alpha)
+      linear_interpolation(a, b, alpha)
+    end
+
+    def fade(t)
+      t * t * t * ((t * ((t * 6) - 15)) + 10)
+    end
+
+    def gradient(h, x, y)
+      case h & 7
+        when 0 then y
+        when 1 then x + y
+        when 2 then x
+        when 3 then x - y
+        when 4 then -y
+        when 5 then -x - y
+        when 6 then -x
+        when 7 then -x + y
+      end
+    end
+  end
+end

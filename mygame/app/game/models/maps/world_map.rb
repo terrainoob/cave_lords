@@ -1,18 +1,33 @@
 class WorldMap
-  def initialize(args)
-    @args = args
+
+  def initialize(width, height, tile_size)
+    @width = width
+    @height = height
+    @tile_size = tile_size
+    @height_map = []
+  end
+
+  def generate_map
     generate_height_map
+    @height_map
   end
 
   def generate_height_map
-    noise = Perlin::Noise.new(2)
-    100.times do |x|
-      100.times do |y|
-        noise_x = x * 0.01
-        noise_y = y * 0.01
-        @args.outputs.static_solids << [x, y, 1, 1, 0, 255, 0, 255] if noise[noise_x, noise_y] < 0.5
-        @args.outputs.static_solids << [x, y, 1, 1, 255, 0, 0, 255] if noise[noise_x, noise_y] >= 0.5
-        log("#{x},#{y} = #{noise[noise_x, noise_y]}")
+    world_seed = 999
+    octaves = 4
+    persistence = 0.5
+
+    generator = Noise::PerlinNoise.new(@width, @height, Random.new(world_seed))
+    height_noise = generator.generate(octaves, persistence)
+    @height_map = []
+
+    (0..@width - 1).each do |x|
+      x_offset = x * @tile_size
+      (0..@height - 1).each do |y|
+        y_offset = y * @tile_size
+        value = height_noise[x][y]
+        primitive = { x: x_offset, y: y_offset, w: @tile_size, h: @tile_size, r: 255 * value, g: 255 * value, b: 255 * value, a: 255 }.solid!
+        @height_map << primitive
       end
     end
   end
