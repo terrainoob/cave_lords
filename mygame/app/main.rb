@@ -1,7 +1,6 @@
 # this is where things start when ./dragonruby is executed
 
 require 'app/game/models/matrix.rb'
-require 'app/game/models/noise/base.rb'
 require 'app/game/models/noise/perlin_noise.rb'
 require 'app/game/models/maps/world_map.rb'
 
@@ -15,9 +14,9 @@ def setup(args)
 end
 
 def set_variables(args)
-  args.state.world_map_width = 200
-  args.state.world_map_height = 100
-  args.state.tile_size = 8
+  args.state.world_map_width = 320
+  args.state.world_map_height = 180
+  args.state.tile_size = 4
 end
 
 def generate_world_map(args)

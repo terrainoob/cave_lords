@@ -17,15 +17,15 @@ class WorldMap
     octaves = 4
     persistence = 0.5
 
-    generator = Noise::PerlinNoise.new(@width, @height, Random.new(world_seed))
-    height_noise = generator.generate(octaves, persistence)
+    noise = Noise::PerlinNoise.new(@width, @height, octaves)
     @height_map = []
 
     (0..@width - 1).each do |x|
       x_offset = x * @tile_size
       (0..@height - 1).each do |y|
         y_offset = y * @tile_size
-        value = height_noise[x][y]
+        value = noise.noise2d_value(x, y)
+        p "#{x}, #{y} = #{value}"
         primitive = { x: x_offset, y: y_offset, w: @tile_size, h: @tile_size, r: 255 * value, g: 255 * value, b: 255 * value, a: 255 }.solid!
         @height_map << primitive
       end
