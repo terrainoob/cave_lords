@@ -1,52 +1,65 @@
 module Noise
   class PerlinNoise
-    def initialize(
-      width = 1280,
-      height = 720,
-      octaves = 1,
-      persistence = 0.5,
-      lacunarity = 2,
-      random = Random.new()
-    )
+    def initialize(width:, height:, octaves: 1, persistence: 0.5, lacunarity: 2, seed: 123)
       @width = width
       @height = height
       @octaves = octaves
       @persistence = persistence
       @lacunarity = lacunarity
-      @p = (0...([@width, @height].max)).to_a.shuffle(random) * 2
+      @p = (0...([@width, @height].max)).to_a.shuffle(Random.new(seed)) * 2
     end
 
     def noise2d_value(x, y)
       total = 0.0
-      frequency = 0.1
       amplitude = 1
 
-      @octaves.times do
-        total += noise2d(x * frequency, y * frequency) * amplitude
+      @frequency = 0.1
+      @octaves.times do |octave|
+        total += noise2d(x, y, octave) * amplitude
         amplitude *= @persistence
-        frequency *= @lacunarity
+        @frequency *= @lacunarity
       end
       return total.clamp(0, 1)
     end
 
     private
 
-    def noise2d(x, y)
-      xi = x & @width
-      yi = y & @height
-      xf = x - x.to_i
-      yf = y - y.to_i
-      u = fade(xf)
-      v = fade(yf)
+    def noise2d(x, y, octave)
+      grad_ary = [
+        -> (x, y) { y },
+        -> (x, y) { x + y },
+        -> (x, y) { x },
+        -> (x, y) { x - y },
+        -> (x, y) { -y },
+        -> (x, y) { -x - y },
+        -> (x, y) { -x },
+        -> (x, y) { -x + y }
+      ]
 
-      aa = @p[@p[xi    ] +  yi     ]
-      ab = @p[@p[xi    ] + (yi + 1)]
-      ba = @p[@p[xi + 1] +  yi     ]
-      bb = @p[@p[xi + 1] + (yi + 1)]
+      period = 1 << octave
+      frequency = @frequency / period
+      w_frequency = @width * frequency
+      h_frequency = @height * frequency
 
-      x1 = lerp(gradient(aa, xf, yf), gradient(ba, xf - 1, yf), u)
-      x2 = lerp(gradient(ab, xf -1, yf), gradient(bb, xf - 1, yf - 1), u)
-      return (lerp(x1, x2, v) + 1) / 2
+      xa = (x * frequency) % w_frequency
+      x1 = xa.to_i
+      x2 = (x1 + 1) % w_frequency
+
+      xf = xa - x1
+      xb = fade(xf)
+
+      px1 = @p[x1]
+      px2 = @p[x2]
+
+      ya = (y * frequency) % h_frequency
+      y1 = ya.to_i
+      y2 = (y1 + 1) % h_frequency
+
+      yf = ya - y1
+      yb = fade(yf)
+      top = lerp(grad_ary[@p[px1 + y1] & 0x7][xf, yf], grad_ary[@p[px2 + y1] & 0x7][xf - 1, yf], xb)
+      bottom = lerp(grad_ary[@p[px1 + y2] & 0x7][xf, yf - 1], grad_ary[@p[px2 + y2] & 0x7][xf - 1, yf - 1], xb)
+      (lerp(top, bottom, yb) + 1) / 2
     end
 
     def lerp(start, stop, step)
@@ -55,19 +68,6 @@ module Noise
 
     def fade(t)
       t * t * t * ((t * ((t * 6) - 15)) + 10)
-    end
-
-    def gradient(hash, x, y)
-      case hash & 7
-      when  0 then      y
-      when  1 then  x + y
-      when  2 then  x
-      when  3 then  x - y
-      when  4 then    - y
-      when  5 then -x - y
-      when  6 then -x
-      when  7 then -x + y
-      end
     end
   end
 end
