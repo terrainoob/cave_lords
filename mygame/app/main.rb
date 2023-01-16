@@ -1,6 +1,5 @@
 # this is where things start when ./dragonruby is executed
 
-require 'app/game/models/matrix.rb'
 require 'app/game/models/noise/perlin_noise.rb'
 require 'app/game/models/maps/world_map.rb'
 
