@@ -11,15 +11,15 @@ module Noise
 
     def noise2d_value(x, y)
       total = 0.0
-      amplitude = 1
+      amplitude = 2
 
-      @frequency = 0.1
+      @frequency = 0.05
       @octaves.times do |octave|
         total += noise2d(x, y, octave) * amplitude
         amplitude *= @persistence
         @frequency *= @lacunarity
       end
-      return total.clamp(0, 1)
+      return total
     end
 
     private
@@ -59,7 +59,7 @@ module Noise
       yb = fade(yf)
       top = lerp(grad_ary[@p[px1 + y1] & 0x7][xf, yf], grad_ary[@p[px2 + y1] & 0x7][xf - 1, yf], xb)
       bottom = lerp(grad_ary[@p[px1 + y2] & 0x7][xf, yf - 1], grad_ary[@p[px2 + y2] & 0x7][xf - 1, yf - 1], xb)
-      (lerp(top, bottom, yb) + 1) / 2
+      lerp(top, bottom, yb) / 2
     end
 
     def lerp(start, stop, step)

@@ -14,8 +14,8 @@ def setup(args)
 end
 
 def set_variables(args)
-  args.state.world_map_width = 320
-  args.state.world_map_height = 180
+  args.state.world_map_width = 640
+  args.state.world_map_height = 360
   args.state.tile_size = 4
 end
 
