@@ -4,7 +4,7 @@ require 'app/game/models/noise/perlin_noise.rb'
 require 'app/game/models/maps/world_map.rb'
 
 def tick(args)
-  setup(args) if args.tick_count == 0
+  setup(args) if args.tick_count.zero?
 end
 
 def setup(args)
@@ -15,11 +15,17 @@ end
 def set_variables(args)
   args.state.world_map_width = 640
   args.state.world_map_height = 360
-  args.state.tile_size = 4
+  args.state.tile_size = 2
+  args.state.world_seed = 483290
 end
 
 def generate_world_map(args)
-  world_map = WorldMap.new(args.state.world_map_width, args.state.world_map_height, args.state.tile_size)
+  world_map = WorldMap.new(
+    args.state.world_map_width,
+    args.state.world_map_height,
+    args.state.tile_size,
+    args.state.world_seed
+  )
   # create the information for the world map grid
   args.state.world_tiles = world_map.generate_map
   # create a render target
