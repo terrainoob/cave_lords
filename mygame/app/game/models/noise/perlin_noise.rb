@@ -7,25 +7,8 @@ module Noise
       @persistence = persistence
       @lacunarity = lacunarity
       @p = (0...([@width, @height].max)).to_a.shuffle(Random.new(seed)) * 2
-    end
-
-    def noise2d_value(x, y)
-      total = 0.0
-      amplitude = 1
-
-      @frequency = 0.05
-      @octaves.times do |octave|
-        total += noise2d(x, y, octave) * amplitude
-        amplitude *= @persistence
-        @frequency *= @lacunarity
-      end
-      return total
-    end
-
-    private
-
-    def noise2d(x, y, octave)
-      grad_ary = [
+      @cache = []
+      @grad_ary = [
         -> (x, y) { y },
         -> (x, y) { x + y },
         -> (x, y) { x },
@@ -35,7 +18,29 @@ module Noise
         -> (x, y) { -x },
         -> (x, y) { -x + y }
       ]
+    end
 
+    def noise2d_value(x, y)
+      if @cache[x]&.[](y)
+        @cache[x][y]
+      else
+        cx = (@cache[x] ||= [])
+        total = 0.0
+        amplitude = 1
+
+        @frequency = 0.05
+        @octaves.times do |octave|
+          total += noise2d(x, y, octave) * amplitude
+          amplitude *= @persistence
+          @frequency *= @lacunarity
+        end
+        cx[y] = total
+      end
+    end
+
+    private
+
+    def noise2d(x, y, octave)
       period = 1 << octave
       frequency = @frequency / period
       w_frequency = @width * frequency
@@ -57,8 +62,8 @@ module Noise
 
       yf = ya - y1
       yb = fade(yf)
-      top = lerp(grad_ary[@p[px1 + y1] & 0x7][xf, yf], grad_ary[@p[px2 + y1] & 0x7][xf - 1, yf], xb)
-      bottom = lerp(grad_ary[@p[px1 + y2] & 0x7][xf, yf - 1], grad_ary[@p[px2 + y2] & 0x7][xf - 1, yf - 1], xb)
+      top = lerp(@grad_ary[@p[px1 + y1] & 0x7][xf, yf], @grad_ary[@p[px2 + y1] & 0x7][xf - 1, yf], xb)
+      bottom = lerp(@grad_ary[@p[px1 + y2] & 0x7][xf, yf - 1], @grad_ary[@p[px2 + y2] & 0x7][xf - 1, yf - 1], xb)
       (lerp(top, bottom, yb) + 1) / 2
     end
 

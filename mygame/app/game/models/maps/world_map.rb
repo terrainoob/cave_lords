@@ -23,13 +23,17 @@ class WorldMap
       lacunarity: 2,
       seed: @seed
     )
-    @height_map = Array.new(@width) { Array.new(@height) }
+    @height_map = []
 
-    (0..@width - 1).each do |x|
-      (0..@height - 1).each do |y|
-        value = noise.noise2d_value(x, y)
-        @height_map[x][y] = value
+    x = 0
+    while x < @width
+      @height_map[x] = []
+      y = 0
+      while y < @height
+        @height_map[x][y] = noise.noise2d_value(x, y)
+        y += 1
       end
+      x += 1
     end
     # p "cell count = #{@height_map.count * @height_map[0].count}"
     # p "minmx = #{@height_map.flatten.minmax}"
