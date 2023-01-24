@@ -5,6 +5,7 @@ ruby '3.0.5'
 
 group :development, :test do
   gem 'byebug'
+  gem 'factory_bot'
   gem 'pry'
   gem 'pry-byebug'
   gem 'pry-stack_explorer'

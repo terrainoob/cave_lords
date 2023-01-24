@@ -30,6 +30,8 @@ GEM
     e2mmap (0.1.0)
     equalizer (0.0.11)
     erubi (1.11.0)
+    factory_bot (6.2.1)
+      activesupport (>= 5.0.0)
     flay (2.13.0)
       erubi (~> 1.10)
       path_expander (~> 1.0)
@@ -168,6 +170,7 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
+  factory_bot
   pry
   pry-byebug
   pry-stack_explorer

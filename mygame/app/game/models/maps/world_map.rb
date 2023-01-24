@@ -6,8 +6,24 @@ class WorldMap
     @seed = seed
   end
 
+  def map
+    @map ||= generate_map
+  end
+
+  private
+
   def generate_map
+    map = []
     generate_height_map
+    (0...@width).each do |x|
+      map[x] = []
+      (0...@height).each do |y|
+        tile = Tile.new(x: x, y: y, size: @tile_size)
+        tile.height_value = height_map(x, y)
+        map[x][y] = tile
+      end
+    end
+    map
   end
 
   def height_map(x, y)
@@ -35,8 +51,10 @@ class WorldMap
       end
       x += 1
     end
-    # p "cell count = #{@height_map.count * @height_map[0].count}"
-    # p "minmx = #{@height_map.flatten.minmax}"
-    # p "distribution = #{@height_map.flatten.group_by{|e| e.round(1)}.sort.map{|k,v| [k, v.length]}}"
+    p "************************"
+    p "minmx = #{@height_map.flatten.minmax}"
+    p "distribution = #{@height_map.flatten.group_by{|e| e.round(1)}.sort.map{|k,v| [k, v.length]}}"
+    p "************************"
+    @height_map
   end
 end

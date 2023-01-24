@@ -1,7 +1,11 @@
 class World
   attr_reader :tiles, :world_width, :world_height, :tile_size
 
-  def initialize()
+  def self.instance
+    @instance ||= World.new
+  end
+
+  def initialize
     @seed = 345672345
     @world_width = 640
     @world_height = 360
@@ -16,14 +20,7 @@ class World
       tile_size: @tile_size,
       seed: @seed
     )
-    world_map.generate_map
-    (0...@world_width).each do |x|
-      (0...@world_height).each do |y|
-        tile = Tile.new(x: x, y: y, size: @tile_size)
-        tile.height_value = world_map.height_map(x, y)
-        @tiles[x][y] = tile
-        $gtk.args.render_target(:world_map).static_primitives << tile.sprite
-      end
-    end
+    # world_map.generate_map
+    # $gtk.args.render_target(:world_map).static_primitives << tile.sprite
   end
 end

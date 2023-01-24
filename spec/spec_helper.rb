@@ -1,6 +1,14 @@
 require 'byebug'
+require 'factory_bot'
+
 RSpec.configure do |config|
   Dir["#{File.dirname(__FILE__)}/../mygame/app/game/**/*.rb"].each {|file| require file }
+
+  config.include FactoryBot::Syntax::Methods
+
+  config.before(:suite) do
+    FactoryBot.find_definitions
+  end
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
