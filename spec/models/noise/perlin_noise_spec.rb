@@ -1,17 +1,17 @@
 require 'spec_helper'
 
 describe 'Perlin::Noise' do
-  let(:width) { 100 }
-  let(:height) { 100 }
-  let(:seed) { 123 }
-  it 'returns random values between 0 and 1 for each cell' do
-    skip("we don't really need this. it was just to get the spec flow running")
-    # generator = Noise::PerlinNoise.new(width, height, Random.new(seed))
-    # noise = generator.generate(6, 0.6)
-    # width.times do |x|
-    #   height.times do |y|
-    #     expect(noise[x][y]).to be_between(-1.0, 1.0)
-    #   end
-    # end
+  it 'returns random values between 0 and 2 for each cell' do
+    # normally, Perlin noise algorithms will return values
+    # either from -1 to 1 or from 0 to 1. However,
+    # in our case, we use 0 to 2 because we want the wide
+    # range of -1 to 1 but we want all the values positive
+    # so that we can easily gray-scale the value colors for
+    # quick visualization
+    skip
+  end
+
+  it 'requires width and height values to be passed in' do
+    skip
   end
 end
