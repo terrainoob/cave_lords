@@ -1,9 +1,16 @@
 class WorldMap
+  attr_accessor :height_viz, :temperature_viz, :moisture_viz, :sprites
+
   def initialize(width:, height:, tile_size:, seed:)
     @width = width
     @height = height
     @tile_size = tile_size
     @seed = seed
+    @sprites = []
+
+    @moisture_viz = []
+    @temperature_viz = []
+    @height_viz = []
   end
 
   def map
@@ -25,10 +32,9 @@ class WorldMap
         tile.temperature_value = @temperature_map[x][y]
         tile.moisture_value = @moisture_map[x][y]
         map[x][y] = tile
-        # $gtk.args.render_target(:world_map).static_primitives << tile.sprite
-        $gtk.args.render_target(:moisture_viz).static_primitives << tile.moisture_viz
-        $gtk.args.render_target(:height_viz).static_primitives << tile.height_viz
-        $gtk.args.render_target(:temperature_viz).static_primitives << tile.temperature_viz
+        @moisture_viz << tile.moisture_viz
+        @height_viz << tile.height_viz
+        @temperature_viz << tile.temperature_viz
       end
     end
     map
@@ -66,8 +72,6 @@ class WorldMap
   def create_perlin_map(args)
     options = { octaves: 3, persistence: 0.5, lacunarity: 2 }
     options.merge!(args)
-    puts args
-    puts options
     noise = Noise::PerlinNoise.new(
       width: @width,
       height: @height,
