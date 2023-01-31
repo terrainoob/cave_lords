@@ -20,8 +20,8 @@ class WorldMap
       map[x] = []
       (0...@height).each do |y|
         tile = Tile.new(x: x, y: y, size: @tile_size)
-        tile.height_value = height_map[x][y]
-        tile.temperature_value = temperature_map[x][y]
+        tile.height_value = @height_map[x][y]
+        tile.temperature_value = @temperature_map[x][y]
         map[x][y] = tile
       end
     end
@@ -57,7 +57,7 @@ class WorldMap
   end
 
   def generate_temperature_map
-    @temperature_map = Array.new(@height){ Array.new(@width) }
+    @temperature_map = Array.new(@height) { Array.new(@width) }
     equator_y = @height / 2
     max_temperature = 100
     # maybe we want to have C and F subclasses of Temperature class
@@ -66,12 +66,13 @@ class WorldMap
     # F temperature range in the world is 100 - 0
     temperature_dropoff_value = max_temperature / (@height - equator_y)
     y = 0
+    # byebug
     while y < @height
       x = 0
-      y_temperature = max_temperature - ( (equator_y - y).abs * temperature_dropoff_value )
+      y_temperature = max_temperature - ((equator_y - y).abs * temperature_dropoff_value)
       while x < @width
-        x += 1
         @temperature_map[x][y] = y_temperature
+        x += 1
       end
       y += 1
     end
