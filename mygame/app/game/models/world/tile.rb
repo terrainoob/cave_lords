@@ -12,12 +12,31 @@ class Tile
 
   def sprite
     if @height_value <= 0.7
-      primitive = { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 0, g: 0, b: 255, a: 255 }.solid!
+      sprite = { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 0, g: 0, b: 255, a: 255 }.solid!
     elsif @height_value > 1.5
-      primitive = { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 255, g: 255, b: 255, a: 255 }.solid!
+      sprite = { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 255, g: 255, b: 255, a: 255 }.solid!
     else
-      primitive = { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 100 * @height_value, g: 100 * @height_value, b: 100 * @height_value, a: 255 }.solid!
+      sprite = { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 100 * @height_value, g: 100 * @height_value, b: 100 * @height_value, a: 255 }.solid!
     end
-    primitive
+    sprite
+  end
+
+  def height_viz
+    if @height_value <= 0.4
+      sprite = { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 0, g: 0, b: 255, a: 255 }.solid!
+    elsif @height_value > 1.5
+      sprite = { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 255, g: 255, b: 255, a: 255 }.solid!
+    else
+      sprite = { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 100 * @height_value, g: 100 * @height_value, b: 100 * @height_value, a: 255 }.solid!
+    end
+    sprite
+  end
+
+  def temperature_viz
+    { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 1 * @temperature_value, g: 0, b: 0, a: 255 }.solid!
+  end
+
+  def moisture_viz
+    { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 0, g: 0, b: 255 * @moisture_value, a: 255 }.solid!
   end
 end

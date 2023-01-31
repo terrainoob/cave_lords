@@ -6,8 +6,8 @@ module Noise
       @octaves = octaves
       @persistence = persistence
       @lacunarity = lacunarity
-      @p = (0...([@width, @height].max)).to_a.shuffle(random: Random.new(seed)) * 2 # for rSpec
-      # @p = (0...([@width, @height].max)).to_a.shuffle(Random.new(seed)) * 2 # for mruby
+      # @p = (0...([@width, @height].max)).to_a.shuffle(random: Random.new(seed)) * 2 # for rSpec
+      @p = (0...([@width, @height].max)).to_a.shuffle(Random.new(seed)) * 2 # for mruby
       @cache = []
       @grad_ary = [
         -> (x, y) { y },

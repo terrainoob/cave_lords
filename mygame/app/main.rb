@@ -14,14 +14,21 @@ def setup(args)
 end
 
 def load_world(args)
-  world = World.new
+  world = World.instance
   world.generate_world_map
+  # args.state.world_map_sprite = {
+  #   x: 0,
+  #   y: 0,
+  #   w: world.world_width * world.tile_size,
+  #   h: world.world_height * world.tile_size,
+  #   path: :world_map
+  # }
   args.state.world_map_sprite = {
     x: 0,
     y: 0,
     w: world.world_width * world.tile_size,
     h: world.world_height * world.tile_size,
-    path: :height_map
+    path: :moisture_viz
   }
   args.outputs.static_sprites << args.state.world_map_sprite
 end

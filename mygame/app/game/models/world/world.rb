@@ -20,5 +20,6 @@ class World
       tile_size: @tile_size,
       seed: @seed
     )
+    world_map.map
   end
 end

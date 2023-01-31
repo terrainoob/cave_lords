@@ -25,6 +25,10 @@ class WorldMap
         tile.temperature_value = @temperature_map[x][y]
         tile.moisture_value = @moisture_map[x][y]
         map[x][y] = tile
+        # $gtk.args.render_target(:world_map).static_primitives << tile.sprite
+        $gtk.args.render_target(:moisture_viz).static_primitives << tile.moisture_viz
+        $gtk.args.render_target(:height_viz).static_primitives << tile.height_viz
+        $gtk.args.render_target(:temperature_viz).static_primitives << tile.temperature_viz
       end
     end
     map
@@ -35,7 +39,7 @@ class WorldMap
   end
 
   def generate_temperature_map
-    @temperature_map = Array.new(@height) { Array.new(@width) }
+    @temperature_map = Array.new(@width) { Array.new(@height) }
     equator_y = @height / 2
     max_temperature = 100
     # maybe we want to have C and F subclasses of Temperature class
@@ -59,8 +63,11 @@ class WorldMap
     @moisture_map = create_perlin_map({ octaves: 1 })
   end
 
-  def create_perlin_map(options)
-    options = options.merge({ octaves: 1, persistence: 0.5, lacunarity: 2 })
+  def create_perlin_map(args)
+    options = { octaves: 3, persistence: 0.5, lacunarity: 2 }
+    options.merge!(args)
+    puts args
+    puts options
     noise = Noise::PerlinNoise.new(
       width: @width,
       height: @height,
