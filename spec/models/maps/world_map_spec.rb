@@ -20,4 +20,8 @@ describe WorldMap do
     y = 1
     expect(world_map.map[1][y].temperature_value).to eq max_temperature - ((map_equator - y).abs * temperature_dropoff)
   end
+
+  it 'assigns a moisture value for each tile' do
+    expect(world_map.map[1][1].moisture_value).not_to be_nil
+  end
 end

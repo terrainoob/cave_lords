@@ -16,12 +16,14 @@ class WorldMap
     map = []
     generate_height_map
     generate_temperature_map
+    generate_moisture_map
     (0...@width).each do |x|
       map[x] = []
       (0...@height).each do |y|
         tile = Tile.new(x: x, y: y, size: @tile_size)
         tile.height_value = @height_map[x][y]
         tile.temperature_value = @temperature_map[x][y]
+        tile.moisture_value = @moisture_map[x][y]
         map[x][y] = tile
       end
     end
@@ -29,31 +31,33 @@ class WorldMap
   end
 
   def generate_height_map
-    noise = Noise::PerlinNoise.new(
-      width: @width,
-      height: @height,
-      octaves: 3,
-      persistence: 0.5,
-      lacunarity: 2,
-      seed: @seed
-    )
-    @height_map = []
+    @height_map = create_perlin_map({ octaves: 3 })
 
-    x = 0
-    while x < @width
-      @height_map[x] = []
-      y = 0
-      while y < @height
-        @height_map[x][y] = noise.noise2d_value(x, y)
-        y += 1
-      end
-      x += 1
-    end
-    p "************************"
-    p "minmx = #{@height_map.flatten.minmax}"
-    p "distribution = #{@height_map.flatten.group_by{|e| e.round(1)}.sort.map{|k,v| [k, v.length]}}"
-    p "************************"
-    @height_map
+    # noise = Noise::PerlinNoise.new(
+    #   width: @width,
+    #   height: @height,
+    #   octaves: 3,
+    #   persistence: 0.5,
+    #   lacunarity: 2,
+    #   seed: @seed
+    # )
+    # map = []
+
+    # x = 0
+    # while x < @width
+    #   map[x] = []
+    #   y = 0
+    #   while y < @height
+    #     map[x][y] = noise.noise2d_value(x, y)
+    #     y += 1
+    #   end
+    #   x += 1
+    # end
+    # p "************************"
+    # p "minmx = #{map.flatten.minmax}"
+    # p "distribution = #{map.flatten.group_by{|e| e.round(1)}.sort.map{|k,v| [k, v.length]}}"
+    # p "************************"
+    # map
   end
 
   def generate_temperature_map
@@ -76,5 +80,38 @@ class WorldMap
       end
       y += 1
     end
+  end
+
+  def generate_moisture_map
+    @moisture_map = create_perlin_map({ octaves: 1 })
+  end
+
+  def create_perlin_map(options)
+    options = options.merge({ octaves: 1, persistence: 0.5, lacunarity: 2 })
+    noise = Noise::PerlinNoise.new(
+      width: @width,
+      height: @height,
+      octaves: options[:octaves],
+      persistence: options[:persistence],
+      lacunarity: options[:lacunarity],
+      seed: @seed
+    )
+    map = []
+
+    x = 0
+    while x < @width
+      map[x] = []
+      y = 0
+      while y < @height
+        map[x][y] = noise.noise2d_value(x, y)
+        y += 1
+      end
+      x += 1
+    end
+    p "************************"
+    p "minmx = #{map.flatten.minmax}"
+    p "distribution = #{map.flatten.group_by{|e| e.round(1)}.sort.map{|k,v| [k, v.length]}}"
+    p "************************"
+    map
   end
 end

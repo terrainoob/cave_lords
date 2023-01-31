@@ -1,5 +1,5 @@
 class Tile
-  attr_accessor :height_value, :temperature_value
+  attr_accessor :height_value, :temperature_value, :moisture_value
 
   def initialize(x:, y:, size:)
     @x = x
@@ -7,6 +7,7 @@ class Tile
     @size = size
     @height_value = nil
     @temperature_value = nil
+    @moisture_value = nil
   end
 
   def sprite
