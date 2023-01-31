@@ -32,32 +32,6 @@ class WorldMap
 
   def generate_height_map
     @height_map = create_perlin_map({ octaves: 3 })
-
-    # noise = Noise::PerlinNoise.new(
-    #   width: @width,
-    #   height: @height,
-    #   octaves: 3,
-    #   persistence: 0.5,
-    #   lacunarity: 2,
-    #   seed: @seed
-    # )
-    # map = []
-
-    # x = 0
-    # while x < @width
-    #   map[x] = []
-    #   y = 0
-    #   while y < @height
-    #     map[x][y] = noise.noise2d_value(x, y)
-    #     y += 1
-    #   end
-    #   x += 1
-    # end
-    # p "************************"
-    # p "minmx = #{map.flatten.minmax}"
-    # p "distribution = #{map.flatten.group_by{|e| e.round(1)}.sort.map{|k,v| [k, v.length]}}"
-    # p "************************"
-    # map
   end
 
   def generate_temperature_map
@@ -70,7 +44,6 @@ class WorldMap
     # F temperature range in the world is 100 - 0
     temperature_dropoff_value = max_temperature / (@height - equator_y)
     y = 0
-    # byebug
     while y < @height
       x = 0
       y_temperature = max_temperature - ((equator_y - y).abs * temperature_dropoff_value)
@@ -108,10 +81,10 @@ class WorldMap
       end
       x += 1
     end
-    p "************************"
-    p "minmx = #{map.flatten.minmax}"
-    p "distribution = #{map.flatten.group_by{|e| e.round(1)}.sort.map{|k,v| [k, v.length]}}"
-    p "************************"
+    # p "************************"
+    # p "minmx = #{map.flatten.minmax}"
+    # p "distribution = #{map.flatten.group_by{|e| e.round(1)}.sort.map{|k,v| [k, v.length]}}"
+    # p "************************"
     map
   end
 end

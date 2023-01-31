@@ -20,6 +20,5 @@ class World
       tile_size: @tile_size,
       seed: @seed
     )
-    # $gtk.args.render_target(:world_map).static_primitives << tile.sprite
   end
 end

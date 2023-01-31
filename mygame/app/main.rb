@@ -21,7 +21,7 @@ def load_world(args)
     y: 0,
     w: world.world_width * world.tile_size,
     h: world.world_height * world.tile_size,
-    path: :world_map
+    path: :height_map
   }
   args.outputs.static_sprites << args.state.world_map_sprite
 end
