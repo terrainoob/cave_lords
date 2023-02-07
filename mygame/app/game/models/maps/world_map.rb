@@ -66,11 +66,11 @@ class WorldMap
   end
 
   def generate_moisture_map
-    @moisture_map = create_perlin_map({ octaves: 1 })
+    @moisture_map = create_perlin_map({ octaves: 1, seed: @seed + 10 })
   end
 
   def create_perlin_map(args)
-    options = { octaves: 3, persistence: 0.5, lacunarity: 2 }
+    options = { octaves: 3, persistence: 0.5, lacunarity: 2, seed: @seed }
     options.merge!(args)
     noise = Noise::PerlinNoise.new(
       width: @width,
@@ -78,7 +78,7 @@ class WorldMap
       octaves: options[:octaves],
       persistence: options[:persistence],
       lacunarity: options[:lacunarity],
-      seed: @seed
+      seed: options[:seed]
     )
     map = []
 
