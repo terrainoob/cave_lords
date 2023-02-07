@@ -21,9 +21,7 @@ def tick(args)
   args.state.world_map_sprite = {
     x: 0,
     y: 0,
-    # w: world.world_width * world.tile_size * 10,
-    # h: world.world_height * world.tile_size * 10,
-    w: 720,
+    w: 1280,
     h: 720,
     path: args.state.selected_layer
   }
@@ -76,15 +74,15 @@ end
 def load_world(args)
   world = World.instance
   world.generate_world_map
-  args.render_target(:moisture_viz).static_primitives << world.moisture_viz
-  args.render_target(:moisture_viz).w = 64
-  args.render_target(:moisture_viz).h = 128
-  args.render_target(:temperature_viz).static_primitives << world.temperature_viz
-  args.render_target(:temperature_viz).w = 64
-  args.render_target(:temperature_viz).h = 128
   args.render_target(:height_viz).static_primitives << world.height_viz
-  args.render_target(:height_viz).w = 32
-  args.render_target(:height_viz).h = 64
+  args.render_target(:height_viz).w = 2560
+  args.render_target(:height_viz).h = 1440
+  args.render_target(:moisture_viz).static_primitives << world.moisture_viz
+  args.render_target(:moisture_viz).w = 2560
+  args.render_target(:moisture_viz).h = 1440
+  args.render_target(:temperature_viz).static_primitives << world.temperature_viz
+  args.render_target(:temperature_viz).w = 1280
+  args.render_target(:temperature_viz).h = 720
 end
 
 $gtk.reset
