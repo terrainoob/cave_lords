@@ -81,8 +81,8 @@ def load_world(args)
   args.render_target(:moisture_viz).w = 2560
   args.render_target(:moisture_viz).h = 1440
   args.render_target(:temperature_viz).static_primitives << world.temperature_viz
-  args.render_target(:temperature_viz).w = 1280
-  args.render_target(:temperature_viz).h = 720
+  args.render_target(:temperature_viz).w = 2560
+  args.render_target(:temperature_viz).h = 1440 * 2
 end
 
 $gtk.reset
