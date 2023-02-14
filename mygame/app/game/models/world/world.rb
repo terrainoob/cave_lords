@@ -19,7 +19,7 @@ class World
     @world_map.moisture_viz
   end
 
-  def sprites
+  def world_map
     @world_map.sprites
   end
 

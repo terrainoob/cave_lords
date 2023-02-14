@@ -32,6 +32,7 @@ class WorldMap
         tile.temperature_value = @temperature_map[x][y]
         tile.moisture_value = @moisture_map[x][y]
         map[x][y] = tile
+        @sprites << tile.sprite
         @moisture_viz << tile.moisture_viz
         @height_viz << tile.height_viz
         @temperature_viz << tile.temperature_viz
