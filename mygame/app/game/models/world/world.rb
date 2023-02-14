@@ -27,7 +27,7 @@ class World
     @seed = 345672345
     @world_width = 320
     @world_height = 180
-    @tile_size = 16
+    @tile_size = 4
     @tiles = Array.new(@world_width) { Array.new(@world_height) }
   end
 
