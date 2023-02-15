@@ -13,7 +13,7 @@ class Menu
     try_button_click(args.state.moisture_button, args)
     try_button_click(args.state.temperature_button, args)
     try_button_click(args.state.map_button, args)
-    end
+  end
 
   def self.try_button_click(button, args)
     return unless args.inputs.mouse.click
