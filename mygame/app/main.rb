@@ -9,7 +9,11 @@ require 'app/game/models/maps/world_map.rb'
 def tick(args)
   args.state.selected_layer ||= :height_viz
   setup(args) if args.tick_count.zero?
+  menu_tick(args)
+  set_map(args)
+end
 
+def menu_tick(args)
   args.outputs.primitives << args.state.height_button.primitives
   args.outputs.primitives << args.state.moisture_button.primitives
   args.outputs.primitives << args.state.temperature_button.primitives
@@ -19,7 +23,9 @@ def tick(args)
   try_button_click(args.state.moisture_button, args)
   try_button_click(args.state.temperature_button, args)
   try_button_click(args.state.map_button, args)
+end
 
+def set_map(args)
   args.state.world_map_sprite = {
     x: 0,
     y: 0,
@@ -51,10 +57,10 @@ end
 def setup(args)
   load_world(args)
 
-  args.state.height_button = button(10, 3, 'Height', { r: 200, g: 30, b: 200 }, :height_clicked, args)
-  args.state.moisture_button = button(10, 5, 'Moisture', { r: 100, g: 130, b: 180 }, :moisture_clicked, args)
-  args.state.temperature_button = button(10, 7, 'Temperature', { r: 200, g: 100, b: 30 }, :temperature_clicked, args)
-  args.state.map_button = button(10, 9, 'Map', { r: 100, g: 200, b: 30 }, :map_clicked, args)
+  args.state.height_button = button(12, 1, 'Height', { r: 200, g: 30, b: 200 }, :height_clicked, args)
+  args.state.moisture_button = button(12, 3, 'Moisture', { r: 100, g: 130, b: 180 }, :moisture_clicked, args)
+  args.state.temperature_button = button(12, 5, 'Temperature', { r: 200, g: 100, b: 30 }, :temperature_clicked, args)
+  args.state.map_button = button(12, 7, 'Map', { r: 100, g: 200, b: 30 }, :map_clicked, args)
 end
 
 def try_button_click(button, args)
@@ -81,18 +87,16 @@ end
 def load_world(args)
   world = World.instance
   world.generate_world_map
-  args.render_target(:height_viz).static_primitives << world.height_viz
-  args.render_target(:height_viz).w = 1280
-  args.render_target(:height_viz).h = 720
-  args.render_target(:moisture_viz).static_primitives << world.moisture_viz
-  args.render_target(:moisture_viz).w = 1280
-  args.render_target(:moisture_viz).h = 720
-  args.render_target(:temperature_viz).static_primitives << world.temperature_viz
-  args.render_target(:temperature_viz).w = 1280
-  args.render_target(:temperature_viz).h = 720
-  args.render_target(:world_map).static_primitives << world.world_map
-  args.render_target(:world_map).w = 1280
-  args.render_target(:world_map).h = 720
+  set_render_target(:height_viz, world.height_viz, args)
+  set_render_target(:temperature_viz, world.temperature_viz, args)
+  set_render_target(:moisture_viz, world.moisture_viz, args)
+  set_render_target(:world_map, world.world_map, args)
+end
+
+def set_render_target(target_name, primitives, args)
+  args.render_target(target_name).static_primitives << primitives
+  args.render_target(target_name).w = 1280
+  args.render_target(target_name).h = 720
 end
 
 $gtk.reset
