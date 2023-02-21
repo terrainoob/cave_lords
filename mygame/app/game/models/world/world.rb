@@ -1,5 +1,5 @@
 class World
-  attr_reader :tiles, :world_width, :world_height, :tile_size
+  attr_reader :tiles, :world_width, :world_height, :tile_size, :tiles
 
   def self.instance
     @instance ||= World.new
@@ -36,6 +36,6 @@ class World
       tile_size: @tile_size,
       seed: @seed
     )
-    @world_map.map
+    @tiles = @world_map.map
   end
 end

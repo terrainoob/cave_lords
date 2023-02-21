@@ -12,13 +12,14 @@ class Biome
       rainforest: [0, 28],
       savannah:   [0, 32],
       ice:        [0, 36]
+      # mountain  [0, 40]
     }
   end
 
   # def self.biome_definitions
   #   {
   #     water: { height: [0..0.4], temperature: [0..50], moisture: [] },
-  #     sand: { height: [0.4..0.5], temperature: [], moisture: [] }
+  #     sand: { height: [0.4..0.5], temperature: [5..25], moisture: [0.8..1.0] }
   #   }
   # end
 end

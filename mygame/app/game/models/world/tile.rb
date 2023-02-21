@@ -1,5 +1,5 @@
 class Tile
-  attr_accessor :height_value, :temperature_value, :moisture_value, :biome
+  attr_accessor :x, :y, :height_value, :temperature_value, :moisture_value, :biome
 
   def initialize(x:, y:, size:)
     @x = x
