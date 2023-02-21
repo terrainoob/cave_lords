@@ -1,8 +1,6 @@
 class World
   attr_reader :tiles, :world_width, :world_height, :tile_size
 
-  # delegate :height_viz, :temperature_viz, :moisture_viz, :sprites, to: :@world_map
-
   def self.instance
     @instance ||= World.new
   end
