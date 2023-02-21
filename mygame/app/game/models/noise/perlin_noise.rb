@@ -1,13 +1,22 @@
 module Noise
   class PerlinNoise
-    def initialize(width:, height:, octaves: 1, persistence: 0.5, lacunarity: 2, seed: 123)
+    # opts can include any of:
+    # {
+    #   octaves:
+    #   persistence:
+    #   lacunarity:
+    #   seed
+    # }
+    def initialize(width:, height:, opts: {})
       @width = width
       @height = height
-      @octaves = octaves
-      @persistence = persistence
-      @lacunarity = lacunarity
-      # @p = (0...([@width, @height].max)).to_a.shuffle(random: Random.new(seed)) * 2 # for rSpec
-      @p = (0...([@width, @height].max)).to_a.shuffle(Random.new(seed)) * 2 # for mruby
+      options = { octaves: 1, persistence: 0.5, lacunarity: 2, seed: 123 }
+      options.merge!(opts)
+      @octaves = options[:octaves]
+      @persistence = options[:persistence]
+      @lacunarity = options[:lacunarity]
+      # @p = (0...([@width, @height].max)).to_a.shuffle(random: Random.new(options[:seed])) * 2 # for rSpec
+      @p = (0...([@width, @height].max)).to_a.shuffle(Random.new(options[:seed])) * 2 # for mruby
       @cache = []
       @grad_ary = [
         -> (x, y) { y },
