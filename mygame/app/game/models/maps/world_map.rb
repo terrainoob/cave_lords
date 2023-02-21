@@ -38,7 +38,26 @@ class WorldMap
         @temperature_viz << tile.temperature_viz
       end
     end
+    # p "************************"
+    # p "height_minmx = #{@height_map.flatten.minmax}"
+    # p "height distribution = #{@height_map.flatten.group_by{|e| e.round(1)}.sort.map{|k,v| [k, v.length]}}"
+    # p "************************"
+    # p "************************"
+    # p "temp_minmx = #{@temperature_map.flatten.minmax}"
+    # p "temp distribution = #{@temperature_map.flatten.group_by{|e| e.round(1)}.sort.map{|k,v| [k, v.length]}}"
+    # p "************************"
+    # p "************************"
+    # p "moisture_minmx = #{@moisture_map.flatten.minmax}"
+    # p "moisture distribution = #{@moisture_map.flatten.group_by{|e| e.round(1)}.sort.map{|k,v| [k, v.length]}}"
+    # p "************************"
     map
+  end
+
+  def adjust_temperature_by_height(x, y, initial_temperature)
+    temperature = initial_temperature
+    height = @height_map[x][y]
+    temperature -= (height - Biome::SEA_LEVEL) * 10 if height > Biome::SEA_LEVEL
+    temperature
   end
 
   def generate_height_map
@@ -59,7 +78,7 @@ class WorldMap
       x = 0
       y_temperature = max_temperature - ((equator_y - y).abs * temperature_dropoff_value)
       while x < @width
-        @temperature_map[x][y] = y_temperature
+        @temperature_map[x][y] = adjust_temperature_by_height(x, y, y_temperature)
         x += 1
       end
       y += 1

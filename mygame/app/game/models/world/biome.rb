@@ -1,4 +1,6 @@
 class Biome
+  SEA_LEVEL = 0.4
+
   def self.sprite_pixels
     {
       water:      [0, 0],

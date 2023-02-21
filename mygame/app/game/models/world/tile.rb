@@ -28,7 +28,7 @@ class Tile
   end
 
   def calc_biome
-    if @height_value <= 0.5
+    if @height_value <= Biome::SEA_LEVEL
       @biome = :water
     elsif @height_value <= 0.7
       if @moisture_value < 0.3
@@ -53,7 +53,7 @@ class Tile
   end
 
   def temperature_viz
-    { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 1 * @temperature_value, g: 0, b: 0, a: 255, primitive_marker: :solid }
+    { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 4 * @temperature_value, g: 80 - @temperature_value, b: 200 - (4 * temperature_value), a: 255, primitive_marker: :solid }
   end
 
   def moisture_viz
