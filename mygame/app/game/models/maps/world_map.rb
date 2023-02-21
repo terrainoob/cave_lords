@@ -48,11 +48,11 @@ class WorldMap
   def generate_temperature_map
     @temperature_map = Array.new(@width) { Array.new(@height) }
     equator_y = @height / 2
-    max_temperature = 100
+    max_temperature = 50
     # maybe we want to have C and F subclasses of Temperature class
     # to figure out temperature dropoff per latitude.
     # For now, we'll simplify.
-    # F temperature range in the world is 100 - 0
+    # C temperature range in the world is 50 - 0
     temperature_dropoff_value = max_temperature / (@height - equator_y)
     y = 0
     while y < @height
