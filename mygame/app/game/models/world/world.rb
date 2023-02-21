@@ -5,6 +5,12 @@ class World
     @instance ||= World.new
   end
 
+  def get_tile_at(x,y)
+    tile_x = (x / @tile_size).floor
+    tile_y = (y / @tile_size).floor
+    return @tiles[tile_x][tile_y]
+  end
+
   def height_viz
     @world_map.height_viz
   end
