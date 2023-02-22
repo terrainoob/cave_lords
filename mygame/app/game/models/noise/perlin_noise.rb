@@ -1,4 +1,14 @@
 module Noise
+  if !Object.const_defined? :MRUBY_VERSION
+    module RubyShimArray
+      def shuffle(random)
+        super(random: random)
+      end
+    end
+
+    Array.prepend(RubyShimArray)
+  end
+
   class PerlinNoise
     # opts can include any of:
     # {
@@ -15,8 +25,7 @@ module Noise
       @octaves = options[:octaves]
       @persistence = options[:persistence]
       @lacunarity = options[:lacunarity]
-      # @p = (0...([@width, @height].max)).to_a.shuffle(random: Random.new(options[:seed])) * 2 # for rSpec
-      @p = (0...([@width, @height].max)).to_a.shuffle(Random.new(options[:seed])) * 2 # for mruby
+      @p = (0...([@width, @height].max)).to_a.shuffle(Random.new(options[:seed])) * 2
       @cache = []
       @grad_ary = [
         -> (x, y) { y },
