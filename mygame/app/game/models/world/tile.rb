@@ -4,6 +4,8 @@ class Tile
   def initialize(x:, y:, size:)
     @x = x
     @y = y
+    @sprite_x = 0
+    @sprite_y = 0
     @size = size
     @height_value = nil
     @temperature_value = nil
@@ -12,13 +14,13 @@ class Tile
   end
 
   def sprite
-    @biome = calc_biome
+    determine_biome
     {
       path: 'sprites/biomes.png',
       tile_w: @size,
       tile_h: @size,
-      tile_x: Biome.sprite_pixels[@biome][0],
-      tile_y: Biome.sprite_pixels[@biome][1],
+      tile_x: @sprite_x,
+      tile_y: @sprite_y,
       w: @size,
       h: @size,
       x: @x * @size,
@@ -27,13 +29,17 @@ class Tile
     }
   end
 
-  def calc_biome
+  def determine_biome
+    found_def = Biome.biome_definitions[0]
     Biome.biome_definitions.each do |definition|
       next unless biome_found(definition)
 
-      return definition[:biome]
+      found_def = definition
+      break
     end
-    :water
+    @biome = found_def[:biome]
+    @sprite_x = found_def[:sprite_x] if found_def[:sprite_x]
+    @sprite_y = found_def[:sprite_y] if found_def[:sprite_y]
   end
 
   def biome_found(definition)
