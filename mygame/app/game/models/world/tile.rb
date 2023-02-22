@@ -12,7 +12,7 @@ class Tile
   end
 
   def sprite
-    calc_biome
+    @biome = calc_biome
     {
       path: 'sprites/biomes.png',
       tile_w: @size,
@@ -28,28 +28,22 @@ class Tile
   end
 
   def calc_biome
-    if @height_value <= Biome::SEA_LEVEL
-      @biome = :water
-    elsif @height_value <= 0.7
-      if @moisture_value < 0.3
-        @biome = :desert
-      else
-        @biome = :sand
-      end
-    else
-      @biome = :grassland
+    Biome.biome_definitions.each do |definition|
+      next unless biome_found(definition)
+
+      return definition[:biome]
     end
+    :water
+  end
+
+  def biome_found(definition)
+    definition[:height].include?(@height_value) &&
+      definition[:temperature].include?(@temperature_value) &&
+      definition[:moisture].include?(@moisture_value)
   end
 
   def height_viz
-    if @height_value <= 0.4
-      sprite = { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 0, g: 0, b: 255, a: 255, primitive_marker: :solid }
-    elsif @height_value > 1.5
-      sprite = { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 255, g: 255, b: 255, a: 255, primitive_marker: :solid }
-    else
-      sprite = { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 100 * @height_value, g: 100 * @height_value, b: 100 * @height_value, a: 255, primitive_marker: :solid }
-    end
-    sprite
+    { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 100 * @height_value, g: 100 * @height_value, b: 100 * @height_value, a: 255, primitive_marker: :solid }
   end
 
   def temperature_viz
