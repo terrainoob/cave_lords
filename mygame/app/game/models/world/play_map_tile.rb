@@ -1,0 +1,3 @@
+class PlayMapTile < Tile
+  
+end

@@ -19,7 +19,7 @@ class WorldMap < GenericMap
     (0...@width).each do |x|
       map[x] = []
       (0...@height).each do |y|
-        tile = Tile.new(x: x, y: y, size: @tile_size)
+        tile = WorldTile.new(x: x, y: y, size: @tile_size)
         tile.height_value = @height_map[x][y]
         tile.temperature_value = @temperature_map[x][y]
         tile.moisture_value = @moisture_map[x][y]

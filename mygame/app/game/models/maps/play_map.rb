@@ -4,7 +4,7 @@ class PlayMap < GenericMap
     (0...@width).each do |x|
       map[x] = []
       (0...@height).each do |y|
-        tile = Tile.new(x: x, y: y, size: @tile_size)
+        tile = PlayMapTile.new(x: x, y: y, size: @tile_size)
         map[x][y] = tile
         @sprites << tile.sprite
       end
