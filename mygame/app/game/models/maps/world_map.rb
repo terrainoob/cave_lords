@@ -1,29 +1,21 @@
-class WorldMap
-  attr_accessor :height_viz, :temperature_viz, :moisture_viz, :sprites
+class WorldMap < GenericMap
+  attr_accessor :height_viz, :temperature_viz, :moisture_viz
 
   def initialize(width:, height:, tile_size:, seed:)
-    @width = width
-    @height = height
-    @tile_size = tile_size
-    @seed = seed
-    @sprites = []
+    super(width: width, height: height, tile_size: tile_size, seed: seed)
 
     @moisture_viz = []
     @temperature_viz = []
     @height_viz = []
   end
 
-  def map
-    @map ||= generate_map
-  end
-
   private
 
   def generate_map
-    map = []
     generate_height_map
     generate_temperature_map
     generate_moisture_map
+    map = []
     (0...@width).each do |x|
       map[x] = []
       (0...@height).each do |y|
