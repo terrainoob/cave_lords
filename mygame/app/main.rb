@@ -8,6 +8,7 @@ require 'app/game/models/world/world.rb'
 require 'app/game/models/maps/world_map.rb'
 
 def tick(args)
+  args.state.current_scene ||= :world_map
   args.state.selected_layer ||= :world_map
   args.state.clicked_tile ||= nil
   setup(args) if args.tick_count.zero?
@@ -15,7 +16,9 @@ def tick(args)
   assign_world_map_sprite(args)
   try_map_click(args)
   tile_info_window(args.inputs.mouse.x, args.inputs.mouse.y, args)
-  ask_start_location(args) unless args.state.clicked_tile.nil?
+  ask_start_location(args)
+  try_start_button_click(args)
+  try_cancel_button_click(args)
 end
 
 def tile_info_window(x, y, args)
@@ -37,10 +40,30 @@ def tile_info_window(x, y, args)
 end
 
 def ask_start_location(args)
+  return if args.state.clicked_tile.nil?
+
   x = 1280 / 2
   y = 720 / 2
   args.outputs.primitives << { x: x, y: y, w: 300, h: 150, r: 50, g: 250, b: 100, a: 255, primitive_marker: :solid }
   args.labels << { x: x + 20, y: y + 20, text: "Start here?" }
+  col = (x / 53).floor
+  row = (y / 60).floor
+  args.state.select_start_button = Menu.button(row, col, "Yes", nil, args)
+  args.state.select_cancel_button = Menu.button(row, col + 2, "Cancel", nil, args)
+  args.outputs.primitives << args.state.select_start_button.primitives
+  args.outputs.primitives << args.state.select_cancel_button.primitives
+end
+
+def try_cancel_button_click(args)
+  return unless args.inputs.mouse.click
+
+  args.state.clicked_tile = nil if args.inputs.mouse.intersect_rect? args.state.select_cancel_button.rect
+end
+
+def try_start_button_click(args)
+  return unless args.inputs.mouse.click
+
+  args.state.current_scene = :deploy if args.inputs.mouse.intersect_rect? args.state.select_start_button.rect
 end
 
 def try_map_click(args)

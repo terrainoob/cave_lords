@@ -31,12 +31,12 @@ class Menu
   end
 
   def self.map_button(col, text, map_layer, args)
-    button = button(col, text, nil, args)
+    button = button(11, col, text, nil, args)
     button.merge({ map_layer: map_layer })
   end
 
-  def self.button(col, text, m, args)
-    rect = args.layout.rect(row: 11, col: col, w: 2, h: 1)
+  def self.button(row, col, text, m, args)
+    rect = args.layout.rect(row: row, col: col, w: 2, h: 1)
     {
       m: m,
       rect: rect,

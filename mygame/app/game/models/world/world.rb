@@ -29,9 +29,11 @@ class World
 
   def initialize
     @seed = 345672345
-    @world_width = 320
-    @world_height = 180
-    @tile_size = 4
+    @world_width = 160
+    @world_height = 90
+    # @world_width = 320
+    # @world_height = 180
+    @tile_size = 8
     @tiles = Array.new(@world_width) { Array.new(@world_height) }
   end
 
