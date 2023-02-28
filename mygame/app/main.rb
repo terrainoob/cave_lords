@@ -8,9 +8,22 @@ require 'app/game/models/world/world.rb'
 require 'app/game/models/maps/world_map.rb'
 
 def tick(args)
-  args.state.current_scene ||= :world_map
-  args.state.selected_layer ||= :world_map
-  args.state.clicked_tile ||= nil
+  set_default_state(args.state)
+  case args.state.current_scene
+  when :deploy
+    deploy_map_tick(args)
+  else
+    world_map_tick(args)
+  end
+end
+
+def set_default_state(state)
+  state.current_scene ||= :world_map
+  state.selected_layer ||= :world_map
+  state.clicked_tile ||= nil
+end
+
+def world_map_tick(args)
   setup(args) if args.tick_count.zero?
   Menu.tick(args)
   assign_world_map_sprite(args)
@@ -19,6 +32,13 @@ def tick(args)
   ask_start_location(args)
   try_start_button_click(args)
   try_cancel_button_click(args)
+end
+
+def deploy_map_tick(args)
+  args.state.current_scene ||= :world_map if args.state.clicked_tile.nil?
+  selected_world_tile = args.state.clicked_tile
+
+  args.outputs.labels << { x: 990, y: 200, text: "Biome: #{selected_world_tile.biome}" }
 end
 
 def tile_info_window(x, y, args)
@@ -67,7 +87,7 @@ def try_start_button_click(args)
 end
 
 def try_map_click(args)
-  return unless args.inputs.mouse.click
+  return unless args.inputs.mouse.click && args.state.clicked_tile.nil?
 
   args.state.clicked_tile = World.instance.get_tile_at(args.inputs.mouse.x, args.inputs.mouse.y)
 end
