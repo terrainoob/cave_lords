@@ -30,7 +30,6 @@ class WorldMap < GenericMap
         @temperature_viz << tile.temperature_viz
       end
     end
-    puts map[0][0].sprite
 
     # p "************************"
     # p "height_minmx = #{@height_map.flatten.minmax}"

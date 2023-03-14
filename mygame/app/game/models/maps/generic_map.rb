@@ -14,6 +14,6 @@ class GenericMap
   end
 
   def generate_map
-    puts 'override me!'
+    puts 'GenericMap.generate_map: override me!'
   end
 end

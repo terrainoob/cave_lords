@@ -10,6 +10,6 @@ class Tile
   end
 
   def sprite
-    puts 'override me'
+    puts 'Tile.sprite: override me'
   end
 end
