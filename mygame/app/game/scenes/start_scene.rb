@@ -1,4 +1,5 @@
 class StartScene
+  #TODO refactor this and PlayMapScene into a MapScene
   def self.instance
     @instance ||= StartScene.new
   end
