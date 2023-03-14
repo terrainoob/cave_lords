@@ -30,6 +30,8 @@ class WorldMap < GenericMap
         @temperature_viz << tile.temperature_viz
       end
     end
+    puts map[0][0].sprite
+
     # p "************************"
     # p "height_minmx = #{@height_map.flatten.minmax}"
     # p "height distribution = #{@height_map.flatten.group_by{|e| e.round(1)}.sort.map{|k,v| [k, v.length]}}"

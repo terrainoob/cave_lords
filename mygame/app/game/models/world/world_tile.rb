@@ -2,7 +2,7 @@ class WorldTile < Tile
   attr_accessor :height_value, :temperature_value, :moisture_value, :biome
 
   def initialize(x:, y:, size:)
-    super
+    super(x: x, y: y, size: size)
     @height_value = nil
     @temperature_value = nil
     @moisture_value = nil
