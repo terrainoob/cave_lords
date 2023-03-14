@@ -9,7 +9,7 @@ describe WorldMap do
   let(:world_map) { WorldMap.new(width: width, height: height, tile_size: 2, seed: 123) }
 
   it 'generates a 2d array of tiles' do
-    expect(world_map.map[1][1].class).to eq Tile
+    expect(world_map.map[1][1].class).to eq WorldTile
   end
 
   it 'assigns a height value to each tile' do

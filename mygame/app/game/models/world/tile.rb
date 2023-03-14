@@ -1,7 +1,7 @@
 class Tile
   attr_accessor :x, :y
 
-  def initialize(x:, y:, size:)
+  def initialize(x: 0, y: 0, size: 1)
     @x = x
     @y = y
     @sprite_x = 0

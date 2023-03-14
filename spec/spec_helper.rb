@@ -2,7 +2,6 @@ require 'byebug'
 require 'factory_bot'
 
 RSpec.configure do |config|
-  # Dir["#{File.dirname(__FILE__)}/../mygame/app/game/**/*.rb"].each {|file| require file }
   require "#{File.dirname(__FILE__)}/../mygame/app/requires"
 
   config.include FactoryBot::Syntax::Methods

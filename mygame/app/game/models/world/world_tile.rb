@@ -2,6 +2,7 @@ class WorldTile < Tile
   attr_accessor :height_value, :temperature_value, :moisture_value, :biome
 
   def initialize(x:, y:, size:)
+    super
     @height_value = nil
     @temperature_value = nil
     @moisture_value = nil
@@ -9,7 +10,6 @@ class WorldTile < Tile
   end
 
   def sprite
-    puts "#{@x},#{@y},#{@size}"
     determine_biome
     {
       path: 'sprites/biomes.png',
