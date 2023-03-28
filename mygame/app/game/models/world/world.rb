@@ -5,10 +5,10 @@ class World
     @instance ||= World.new
   end
 
-  def get_tile_at(x,y)
+  def get_tile_at(x, y)
     tile_x = (x / @tile_size).floor
     tile_y = (y / @tile_size).floor
-    return @tiles[tile_x][tile_y]
+    @tiles[tile_x][tile_y]
   end
 
   def height_viz
@@ -29,9 +29,12 @@ class World
 
   def initialize
     @seed = 345672345
-    @world_width = 320
-    @world_height = 180
-    @tile_size = 4
+    # @world_width = 320
+    # @world_height = 180
+    # @tile_size = 4
+    @world_width = 128
+    @world_height = 72
+    @tile_size = 10
     @tiles = Array.new(@world_width) { Array.new(@world_height) }
   end
 

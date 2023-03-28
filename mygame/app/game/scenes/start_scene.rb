@@ -37,7 +37,7 @@ class StartScene
   end
 
   def set_render_target(target_name, primitives, args)
-    args.render_target(target_name).static_primitives << primitives
+    args.render_target(target_name).primitives << primitives
     args.render_target(target_name).w = 1280
     args.render_target(target_name).h = 720
   end
@@ -77,12 +77,14 @@ class StartScene
 
   def try_cancel_button_click(args)
     return unless args.inputs.mouse.click
+    return if args.state.select_cancel_button.nil? || args.state.select_cancel_button.rect.nil?
 
     args.state.clicked_tile = nil if args.inputs.mouse.intersect_rect? args.state.select_cancel_button.rect
   end
 
   def try_start_button_click(args)
     return unless args.inputs.mouse.click
+    return if args.state.select_start_button.nil? || args.state.select_start_button.rect.nil?
 
     args.state.current_scene = :deploy if args.inputs.mouse.intersect_rect? args.state.select_start_button.rect
   end

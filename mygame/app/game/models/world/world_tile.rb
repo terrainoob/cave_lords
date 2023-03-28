@@ -13,8 +13,10 @@ class WorldTile < Tile
     determine_biome
     {
       path: 'sprites/biomes.png',
-      tile_w: @size,
-      tile_h: @size,
+      # tile_w: @size,
+      # tile_h: @size,
+      tile_w: 4,
+      tile_h: 4,
       tile_x: @sprite_x,
       tile_y: @sprite_y,
       w: @size,
