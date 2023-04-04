@@ -12,3 +12,4 @@
 /logs/
 .byebug_history
 amirs_world.rb
+*.sav

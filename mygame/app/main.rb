@@ -10,6 +10,7 @@ def tick(args)
   }
 
   assign_default_state(args.state)
+  handle_input(args)
   select_scene(args)
 end
 
@@ -18,6 +19,10 @@ def assign_default_state(state)
   state.next_scene ||= :main_menu
   state.selected_layer ||= :world_map
   state.clicked_tile ||= nil
+end
+
+def handle_input(args)
+  args.state.next_scene = :main_menu if args.inputs.keyboard.key_down.escape
 end
 
 def select_scene(args)
