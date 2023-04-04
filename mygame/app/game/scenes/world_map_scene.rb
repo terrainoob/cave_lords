@@ -1,11 +1,12 @@
-class StartScene
+class WorldMapScene
   #TODO refactor this and PlayMapScene into a MapScene
   def self.instance
-    @instance ||= StartScene.new
+    @instance ||= WorldMapScene.new
   end
 
   def tick(args)
-    setup(args) if args.tick_count.zero?
+    @map_generated ||= false
+    setup(args) unless @map_generated
     Menu.tick(args)
     assign_world_map_sprite(args)
     try_map_click(args)
@@ -18,6 +19,7 @@ class StartScene
   private
 
   def setup(args)
+    @map_generated = true
     load_world(args)
     Menu.setup(args)
   end
@@ -86,7 +88,7 @@ class StartScene
     return unless args.inputs.mouse.click
     return if args.state.select_start_button.nil? || args.state.select_start_button.rect.nil?
 
-    args.state.current_scene = :deploy if args.inputs.mouse.intersect_rect? args.state.select_start_button.rect
+    args.state.next_scene = :deploy if args.inputs.mouse.intersect_rect? args.state.select_start_button.rect
   end
 
   def try_map_click(args)

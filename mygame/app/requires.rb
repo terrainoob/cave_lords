@@ -1,5 +1,6 @@
 require "#{File.dirname(__FILE__)}/game/gui/menu.rb"
-require "#{File.dirname(__FILE__)}/game/scenes/start_scene.rb"
+require "#{File.dirname(__FILE__)}/game/scenes/main_menu_scene.rb"
+require "#{File.dirname(__FILE__)}/game/scenes/world_map_scene.rb"
 require "#{File.dirname(__FILE__)}/game/scenes/play_map_scene.rb"
 require "#{File.dirname(__FILE__)}/game/models/noise/perlin_noise.rb"
 require "#{File.dirname(__FILE__)}/game/models/world/biome.rb"
