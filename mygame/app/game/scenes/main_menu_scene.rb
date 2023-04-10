@@ -16,10 +16,26 @@ module Scene
     private
 
     def create_buttons(args)
-      args.state.resume_game_button = Menu.button(1, 4, 'Resume Game', :resume_game_click, args)
-      args.state.new_game_button = Menu.button(2, 4, 'New Game', :new_game_click, args)
-      args.state.save_button = Menu.button(4, 4, 'Save', :save_game_click, args)
-      args.state.load_button = Menu.button(6, 4, 'Load', :load_game_click, args)
+      args.state.resume_game_button = GuiElements.button(
+        { display_col: 4, display_row: 1, display_text: 'Resume Game' },
+        :resume_game_click,
+        args
+      )
+      args.state.new_game_button = GuiElements.button(
+        { display_col: 4, display_row: 2, display_text: 'New Game' },
+        :new_game_click,
+        args
+      )
+      args.state.save_button = GuiElements.button(
+        { display_col: 4, display_row: 4, display_text: 'Save' },
+        :save_game_click,
+        args
+      )
+      args.state.load_button = GuiElements.button(
+        { display_col: 4, display_row: 6, display_text: 'Load' },
+        :load_game_click,
+        args
+      )
     end
 
     def try_main_menu_click(button, args)

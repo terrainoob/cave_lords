@@ -1,3 +1,4 @@
+require "#{File.dirname(__FILE__)}/game/gui/gui_elements.rb"
 require "#{File.dirname(__FILE__)}/game/gui/menu.rb"
 require "#{File.dirname(__FILE__)}/game/scenes/main_menu_scene.rb"
 require "#{File.dirname(__FILE__)}/game/scenes/world_map_scene.rb"
