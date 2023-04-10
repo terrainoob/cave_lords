@@ -17,7 +17,7 @@ module Scene
         args.state.main_menu_buttons << GuiElements.button(
           button_def[:display_options],
           button_def[:callback_method],
-          arg
+          args
         )
       end
     end
@@ -39,6 +39,7 @@ module Scene
 
     def save_game_click(args)
       return unless World.instance.tiles
+
       puts "I SAVED! (but not really! j/k!)"
 
       # $gtk.write_file("world.sav", World.instance.tiles.to_json)
