@@ -2,40 +2,24 @@ module Scene
   class << self
     def main_menu_tick(args)
       create_buttons(args) if args.tick_count.zero?
-      args.outputs.primitives << args.state.resume_game_button.primitives
-      args.outputs.primitives << args.state.new_game_button.primitives
-      args.outputs.primitives << args.state.save_button.primitives
-      args.outputs.primitives << args.state.load_button.primitives
-
-      try_main_menu_click(args.state.new_game_button, args)
-      try_main_menu_click(args.state.resume_game_button, args)
-      try_main_menu_click(args.state.save_button, args)
-      try_main_menu_click(args.state.load_button, args)
+      args.state.main_menu_buttons.each do |button|
+        args.outputs.primitives << button.primitives
+        try_main_menu_click(button, args)
+      end
     end
 
     private
 
     def create_buttons(args)
-      args.state.resume_game_button = GuiElements.button(
-        { display_col: 4, display_row: 1, display_text: 'Resume Game' },
-        :resume_game_click,
-        args
-      )
-      args.state.new_game_button = GuiElements.button(
-        { display_col: 4, display_row: 2, display_text: 'New Game' },
-        :new_game_click,
-        args
-      )
-      args.state.save_button = GuiElements.button(
-        { display_col: 4, display_row: 4, display_text: 'Save' },
-        :save_game_click,
-        args
-      )
-      args.state.load_button = GuiElements.button(
-        { display_col: 4, display_row: 6, display_text: 'Load' },
-        :load_game_click,
-        args
-      )
+      args.state.main_menu_buttons = []
+
+      ButtonDefs::MAIN_MENU_BUTTONS.each do |button_def|
+        args.state.main_menu_buttons << GuiElements.button(
+          button_def[:display_options],
+          button_def[:callback_method],
+          arg
+        )
+      end
     end
 
     def try_main_menu_click(button, args)
@@ -55,8 +39,9 @@ module Scene
 
     def save_game_click(args)
       return unless World.instance.tiles
+      puts "I SAVED! (but not really! j/k!)"
 
-      $gtk.write_file("world.sav", World.instance.tiles.to_json)
+      # $gtk.write_file("world.sav", World.instance.tiles.to_json)
     end
 
     def load_game_click(args)
