@@ -12,6 +12,8 @@ module GuiElements
     # @option display_opts [Integer] :green the green rgb value of the button's color
     # @option display_opts [Integer] :blue the blue rgb value of the button's color
     # @option display_opts [String] :display_text The text that should appear on the button
+    #
+    # @param [Hash] opts arbitrary options that can be passed through
     # @param [<Type>] callback_method <description>
     # @param [?] args <description>
     #
@@ -19,8 +21,9 @@ module GuiElements
     # @option return [method] :m callback method the button will execute
     # @option return [layout.rect] :rect the render rectangle of the button
     # @option return [Array] :primitives the render primitive definitions of the button
+    # @option return [Hash] :ops passes back the opts hash that was passed in
     #
-    def button(display_opts = {}, callback_method, args)
+    def button(display_opts = {}, opts = {}, callback_method, args)
       display_opts = {
         display_row: 1,
         display_col: 1,

@@ -9,8 +9,8 @@ module Scene
       try_map_click(args)
       tile_info_window(args.inputs.mouse.x, args.inputs.mouse.y, args)
       ask_start_location(args)
-      try_start_button_click(args)
-      try_cancel_button_click(args)
+      try_button_click(args.state.select_start_button, args)
+      try_button_click(args.state.select_cancel_button, args)
     end
 
     private
@@ -68,24 +68,40 @@ module Scene
       args.labels << { x: x + 20, y: y + 20, text: "Start here?" }
       col = (x / 53).floor
       row = (y / 60).floor
-      args.state.select_start_button = Menu.button(row, col, "Yes", nil, args)
-      args.state.select_cancel_button = Menu.button(row, col + 2, "Cancel", nil, args)
+      create_yes_no_buttons(col, row, args)
+    end
+
+    def create_yes_no_buttons(col, row, args)
+      args.state.select_start_button = GuiElements.button(
+        { display_col: col, display_row: row, display_text: 'Yes' },
+        {},
+        :start_button_click,
+        args
+      )
+      args.state.select_cancel_button = GuiElements.button(
+        { display_col: col + 2, display_row: row, display_text: 'No' },
+        {},
+        :cancel_button_click,
+        args
+      )
       args.outputs.primitives << args.state.select_start_button.primitives
       args.outputs.primitives << args.state.select_cancel_button.primitives
     end
 
-    def try_cancel_button_click(args)
-      return unless args.inputs.mouse.click
-      return if args.state.select_cancel_button.nil? || args.state.select_cancel_button.rect.nil?
-
-      args.state.clicked_tile = nil if args.inputs.mouse.intersect_rect? args.state.select_cancel_button.rect
+    def start_button_click(args)
+      args.state.next_scene = :play_map
     end
 
-    def try_start_button_click(args)
-      return unless args.inputs.mouse.click
-      return if args.state.select_start_button.nil? || args.state.select_start_button.rect.nil?
+    def cancel_button_click(args)
+      args.state.clicked_tile = nil
+    end
 
-      args.state.next_scene = :play_map if args.inputs.mouse.intersect_rect? args.state.select_start_button.rect
+    def try_button_click(button, args)
+      return unless args.inputs.mouse.click
+
+      return unless button&.rect
+
+      send(button.m, args) if args.inputs.mouse.intersect_rect? button.rect
     end
 
     def try_map_click(args)
