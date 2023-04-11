@@ -40,9 +40,7 @@ module Scene
     def save_game_click(args)
       return unless World.instance.tiles
 
-      puts "I SAVED! (but not really! j/k!)"
-
-      # $gtk.write_file("world.sav", World.instance.tiles.to_json)
+      $gtk.write_json("world.sav", World.instance, -1)
     end
 
     def load_game_click(args)

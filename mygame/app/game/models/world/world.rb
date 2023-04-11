@@ -5,6 +5,16 @@ class World
     @instance ||= World.new
   end
 
+  def to_json(indent_depth: 0, indent_size: 4, minify: true, space_in_empty: true)
+    json_output = {}
+    json_output[:seed] = @seed
+    json_output[:tile_size] = @tile_size
+    json_output[:world_width] = @world_width
+    json_output[:world_height] = @world_height
+    json_output[:tiles] = @tiles
+    json_output.to_json(minify: minify)
+  end
+
   def get_tile_at(x, y)
     tile_x = (x / @tile_size).floor
     tile_y = (y / @tile_size).floor
