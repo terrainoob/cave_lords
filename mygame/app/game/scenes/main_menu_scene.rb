@@ -44,7 +44,9 @@ module Scene
     end
 
     def load_game_click(args)
-      puts 'I LOADED!'
+      json = $gtk.parse_json_file("world.sav")
+      World.instance.load_from_json(json)
+      args.state.next_scene = :world_map
     end
   end
 end
