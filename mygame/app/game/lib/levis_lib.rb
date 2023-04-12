@@ -176,9 +176,10 @@ module LevisLibs
     end
   end
 
-  class ::GTK::Runtime
-    def write_json(filename, hash_or_array, indent_size = 4)
-      write_file(filename, hash_or_array.to_json(indent_size: indent_size, minify: indent_size == -1))
-    end
-  end
+  # can't use this because it interferes with rspec runs.
+  # class ::GTK::Runtime
+  #   def write_json(filename, hash_or_array, indent_size = 4)
+  #     write_file(filename, hash_or_array.to_json(indent_size: indent_size, minify: indent_size == -1))
+  #   end
+  # end
 end
