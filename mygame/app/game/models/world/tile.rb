@@ -13,17 +13,12 @@ class Tile
     puts 'Tile.sprite: override me'
   end
 
-  def to_json(indent_depth: 0, indent_size: 4, minify: true, space_in_empty: true)
+  def to_json
     {
       x: @x,
       y: @y,
       sprite_x: @sprite_x,
       sprite_y: @sprite_y
-    }.to_json(
-      indent_depth: indent_depth,
-      indent_size: indent_size,
-      minify: minify,
-      space_in_empty: space_in_empty
-    )
+    }.to_json(indent_depth: 0, indent_size: 4, minify: true, space_in_empty: true)
   end
 end

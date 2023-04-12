@@ -9,7 +9,7 @@ class WorldTile < Tile
     @biome = nil
   end
 
-  def to_json(indent_depth: 0, indent_size: 4, minify: true, space_in_empty: true)
+  def to_json(*_args)
     {
       x: @x,
       y: @y,
@@ -19,12 +19,7 @@ class WorldTile < Tile
       temperature_value: @temperature_value,
       moisture_value: @moisture_value,
       biome: @biome
-    }.to_json(
-      indent_depth: indent_depth,
-      indent_size: indent_size,
-      minify: minify,
-      space_in_empty: space_in_empty
-    )
+    }.to_json(indent_depth: 0, indent_size: 4, minify: true, space_in_empty: true)
   end
 
   def sprite
