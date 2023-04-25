@@ -27,6 +27,21 @@ module Scene
 
       @play_map = PlayMap.new(width: 200, height: 100, tile_size: 4, seed: 123456789)
       @play_map.map
+      spawn_a_pawn(args)
+    end
+
+    def spawn_a_pawn(args)
+      pawn = Pawn.new(x_pos: 50, y_pos: 50)
+      puts '*********************************'
+      puts pawn.sprite
+      puts '*********************************'
+
+      args.outputs.sprites << pawn.sprite
+
+      # target_name = 'pawn_dude'
+      # args.render_target(target_name).primitives << pawn.sprite
+      # args.render_target(target_name).w = 16
+      # args.render_target(target_name).h = 16
     end
 
     def assign_play_map_sprite(args)
@@ -46,7 +61,7 @@ module Scene
       y_offset = (720 - sprite_height) / 2
       args.state.play_map_sprite = {
         x: x_offset + (args.state.camera.offset_x / 2),
-        y: y_offset + (args.state.camera.offset_y / 2),      
+        y: y_offset + (args.state.camera.offset_y / 2),
         w: sprite_width,
         h: sprite_height,
         path: :play_map

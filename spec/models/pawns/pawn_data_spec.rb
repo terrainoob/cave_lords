@@ -59,12 +59,14 @@ describe PawnData do
 
   describe '#sprite' do
     it 'have a base_sprite_address' do
-      expect(pawn_data.base_sprite_address).to eq [0, 0]
+      expect(pawn_data.base_sprite_address[:x]).to eq 0
+      expect(pawn_data.base_sprite_address[:y]).to eq 0
     end
 
     it 'can have its base_sprite_address changed' do
-      pawn_data.base_sprite_address = [1, 1]
-      expect(pawn_data.base_sprite_address).to eq [1, 1]
+      pawn_data.base_sprite_address = { x: 1, y: 1 }
+      expect(pawn_data.base_sprite_address[:x]).to eq 1
+      expect(pawn_data.base_sprite_address[:y]).to eq 1
     end
   end
 end
