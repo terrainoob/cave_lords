@@ -10,6 +10,8 @@ module Scene
 
       args.outputs.labels << { x: 990, y: 200, text: "Biome: #{@selected_world_tile.biome}" }
       generate_play_map(args) unless @play_map
+      adjust_camera(args)
+      set_sprite_offsets
       set_render_target(:play_map, @play_map.sprites, args) if @play_map
       set_render_target(:pawn_map, args.state.pawns.map(&:sprite), args) if args.state.pawns
       paint_map(args)
@@ -17,6 +19,33 @@ module Scene
     end
 
     private
+
+    def set_sprite_offsets
+      # x_offset = (1280 - sprite_width) / 2
+      # y_offset = (720 - sprite_height) / 2
+      @x_offset = 0
+      @y_offset = 0
+    end
+
+    def adjust_camera(args)
+      # zoom in/out
+      if args.inputs.keyboard.key_down.i || args.inputs.mouse.wheel&.y.to_i.positive?
+        args.state.camera.scale += 0.1
+      elsif args.inputs.keyboard.key_down.o || args.inputs.mouse.wheel&.y.to_i.negative?
+        args.state.camera.scale -= 0.1
+      end
+
+      # args.state.camera.offset_x ||= 640
+      # args.state.camera.offset_y ||= 360
+      args.state.camera.offset_x ||= 0
+      args.state.camera.offset_y ||= 0
+      args.state.camera.scale ||= 4
+      args.state.camera.offset_x += args.inputs.left_right * 10
+      args.state.camera.offset_y += args.inputs.up_down * 10
+
+      @sprite_width = 2560 * args.state.camera.scale
+      @sprite_height = 1440 * args.state.camera.scale
+    end
 
     def set_render_target(target_name, primitives, args)
       args.render_target(target_name).primitives << primitives
@@ -37,69 +66,22 @@ module Scene
       args.state.pawns << Pawn.new(x_pos: 50, y_pos: 50)
     end
 
+    def paint_sprite(path_name, args)
+      {
+        x: @x_offset + (args.state.camera.offset_x / 2),
+        y: @y_offset + (args.state.camera.offset_y / 2),
+        w: @sprite_width,
+        h: @sprite_height,
+        path: path_name
+      }.to_sprite
+    end
+
     def paint_pawns(args)
-     # args.state.camera.offset_x ||= 640
-      # args.state.camera.offset_y ||= 360
-      args.state.camera.offset_x ||= 0
-      args.state.camera.offset_y ||= 0
-      args.state.camera.scale ||= 4
-      args.state.camera.offset_x += args.inputs.left_right * 10
-      args.state.camera.offset_y += args.inputs.up_down * 10
-
-      # zoom in/out
-      if args.inputs.keyboard.key_down.i
-        args.state.camera.scale += 0.1
-      elsif args.inputs.keyboard.key_down.o
-        args.state.camera.scale -= 0.1
-      end
-
-      sprite_width = 2560 * args.state.camera.scale
-      sprite_height = 1440 * args.state.camera.scale
-      # x_offset = (1280 - sprite_width) / 2
-      # y_offset = (720 - sprite_height) / 2
-      x_offset = 0
-      y_offset = 0
-
-      args.state.pawn_map_sprite = {
-        x: x_offset + (args.state.camera.offset_x / 2),
-        y: y_offset + (args.state.camera.offset_y / 2),
-        w: sprite_width,
-        h: sprite_height,
-        path: :pawn_map
-      }
-      args.outputs.sprites << args.state.pawn_map_sprite
+      args.outputs.sprites << paint_sprite(:pawn_map, args)
     end
 
     def paint_map(args)
-      # args.state.camera.offset_x ||= 640
-      # args.state.camera.offset_y ||= 360
-      args.state.camera.offset_x ||= 0
-      args.state.camera.offset_y ||= 0
-      args.state.camera.scale ||= 4
-      args.state.camera.offset_x += args.inputs.left_right * 10
-      args.state.camera.offset_y += args.inputs.up_down * 10
-
-      # zoom in/out
-      if args.inputs.keyboard.key_down.i
-        args.state.camera.scale += 0.1
-      elsif args.inputs.keyboard.key_down.o
-        args.state.camera.scale -= 0.1
-      end
-
-      sprite_width = 2560 * args.state.camera.scale
-      sprite_height = 1440 * args.state.camera.scale
-      # x_offset = (1280 - sprite_width) / 2
-      # y_offset = (720 - sprite_height) / 2
-      x_offset = 0
-      y_offset = 0
-      args.state.play_map_sprite = {
-        x: x_offset + (args.state.camera.offset_x / 2),
-        y: y_offset + (args.state.camera.offset_y / 2),
-        w: sprite_width,
-        h: sprite_height,
-        path: :play_map
-      }
-      args.outputs.sprites << args.state.play_map_sprite
+      args.outputs.sprites << paint_sprite(:play_map, args)
     end
   end
 end
