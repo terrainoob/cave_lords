@@ -18,7 +18,7 @@ class PawnData
     @y_pos = y_pos
     @max_health = 100
     @current_health = 100
-    @base_sprite_address = { x: 0, y: 40 }
+    @base_sprite_address = { x: 0, y: 0 }
   end
 
   def set_state(state)

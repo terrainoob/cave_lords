@@ -8,8 +8,8 @@ class Pawn
   def sprite
     {
       path: @sprite_sheet_path,
-      tile_w: 4,
-      tile_h: 4,
+      tile_w: 16,
+      tile_h: 16,
       tile_x: @pawn_data.base_sprite_address[:x],
       tile_y: @pawn_data.base_sprite_address[:y],
       w: 4,
