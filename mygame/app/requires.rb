@@ -1,4 +1,5 @@
 require "#{File.dirname(__FILE__)}/game/lib/levis_lib.rb"
+require "#{File.dirname(__FILE__)}/game/lib/sprite_sheet_manager.rb"
 require "#{File.dirname(__FILE__)}/game/gui/gui_elements/button.rb"
 require "#{File.dirname(__FILE__)}/game/gui/button_defs.rb"
 require "#{File.dirname(__FILE__)}/game/gui/menu.rb"
