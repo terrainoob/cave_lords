@@ -7,6 +7,8 @@ class WorldTile < Tile
     @temperature_value = nil
     @moisture_value = nil
     @biome = nil
+    @sprite_sheet_manager = SpriteSheetManager.new('sprites/biomes.png')
+    @sprite_sheet_manager.sprite_size = 4
   end
 
   def to_json(*_args)
@@ -24,20 +26,10 @@ class WorldTile < Tile
 
   def sprite
     determine_biome
-    {
-      path: 'sprites/biomes.png',
-      # tile_w: @size,
-      # tile_h: @size,
-      tile_w: 4,
-      tile_h: 4,
-      tile_x: @sprite_x,
-      tile_y: @sprite_y,
-      w: @size,
-      h: @size,
-      x: @x * @size,
-      y: @y * @size,
-      primitive_marker: :sprite
-    }
+    hash = @sprite_sheet_manager.sprite_hash(@sprite_col, @sprite_row, 2.5)
+    hash[:x] = @x * @size
+    hash[:y] = @y * @size
+    hash
   end
 
   def determine_biome
@@ -49,8 +41,8 @@ class WorldTile < Tile
       break
     end
     @biome = found_def[:biome]
-    @sprite_x = found_def[:sprite_x] if found_def[:sprite_x]
-    @sprite_y = found_def[:sprite_y] if found_def[:sprite_y]
+    @sprite_col = found_def[:sprite_col] if found_def[:sprite_col]
+    @sprite_row = found_def[:sprite_row] if found_def[:sprite_row]
   end
 
   def biome_found(definition)
