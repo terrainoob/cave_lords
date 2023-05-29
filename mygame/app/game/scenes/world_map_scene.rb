@@ -4,7 +4,6 @@ module Scene
     def world_map_tick(args)
       @map_generated ||= false
       setup(args) unless @map_generated
-      Menu.tick(args)
       assign_world_map_sprite(args)
       try_map_click(args)
       tile_info_window(args.inputs.mouse.x, args.inputs.mouse.y, args)
@@ -18,21 +17,12 @@ module Scene
     def setup(args)
       @map_generated = true
       load_world(args)
-      Menu.setup(args)
     end
 
     def load_world(args)
       world = World.instance
       world.generate_world_map
       set_render_target(:world_map, world.world_map, args)
-      assign_viz_maps(args)
-    end
-
-    def assign_viz_maps(args)
-      world = World.instance
-      set_render_target(:height_viz, world.height_viz, args)
-      set_render_target(:temperature_viz, world.temperature_viz, args)
-      set_render_target(:moisture_viz, world.moisture_viz, args)
     end
 
     def set_render_target(target_name, primitives, args)

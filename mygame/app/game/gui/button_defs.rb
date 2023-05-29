@@ -23,33 +23,4 @@ module ButtonDefs
     SAVE_BUTTON,
     LOAD_BUTTON
   ].freeze
-
-  # Debug buttons
-  HEIGHT_MAP_BUTTON = {
-    display_options: { display_col: 1, display_row: 11, display_text: 'Height' },
-    map_layer: :height_viz,
-    callback_method: :set_debug_map_layer
-  }.freeze
-  MOISTURE_MAP_BUTTON = {
-    display_options: { display_col: 3, display_row: 11, display_text: 'Moisture' },
-    map_layer: :moisture_viz,
-    callback_method: :set_debug_map_layer
-  }.freeze
-  TEMPERATURE_MAP_BUTTON = {
-    display_options: { display_col: 5, display_row: 11, display_text: 'Temp' },
-    map_layer: :temperature_viz,
-    callback_method: :set_debug_map_layer
-  }.freeze
-  FULL_MAP_BUTTON = {
-    display_options: { display_col: 7, display_row: 11, display_text: 'World Map' },
-    map_layer: :world_map,
-    callback_method: :set_debug_map_layer
-  }.freeze
-
-  DEBUG_BUTTONS = [
-    HEIGHT_MAP_BUTTON,
-    MOISTURE_MAP_BUTTON,
-    TEMPERATURE_MAP_BUTTON,
-    FULL_MAP_BUTTON
-  ].freeze
 end

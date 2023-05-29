@@ -41,18 +41,6 @@ class World
     @tiles[tile_x][tile_y]
   end
 
-  def height_viz
-    @world_map.height_viz
-  end
-
-  def temperature_viz
-    @world_map.temperature_viz
-  end
-
-  def moisture_viz
-    @world_map.moisture_viz
-  end
-
   def world_map
     @world_map.sprites
   end

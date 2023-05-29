@@ -50,16 +50,4 @@ class WorldTile < Tile
       definition[:temperature].include?(@temperature_value) &&
       definition[:moisture].include?(@moisture_value)
   end
-
-  def height_viz
-    { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 100 * @height_value, g: 100 * @height_value, b: 100 * @height_value, a: 255, primitive_marker: :solid }
-  end
-
-  def temperature_viz
-    { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 4 * @temperature_value, g: 80 - @temperature_value, b: 200 - (4 * temperature_value), a: 255, primitive_marker: :solid }
-  end
-
-  def moisture_viz
-    { x: (@x * @size), y: (@y * @size), w: @size, h: @size, r: 0, g: 0, b: 255 * @moisture_value, a: 255, primitive_marker: :solid }
-  end
 end

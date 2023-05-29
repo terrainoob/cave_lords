@@ -1,12 +1,7 @@
 class WorldMap < GenericMap
-  attr_accessor :height_viz, :temperature_viz, :moisture_viz
 
   def initialize(width:, height:, tile_size:, seed:)
     super(width: width, height: height, tile_size: tile_size, seed: seed)
-
-    @moisture_viz = []
-    @temperature_viz = []
-    @height_viz = []
   end
 
   private
@@ -25,24 +20,8 @@ class WorldMap < GenericMap
         tile.moisture_value = @moisture_map[x][y]
         map[x][y] = tile
         @sprites << tile.sprite
-        @moisture_viz << tile.moisture_viz
-        @height_viz << tile.height_viz
-        @temperature_viz << tile.temperature_viz
       end
     end
-
-    # p "************************"
-    # p "height_minmx = #{@height_map.flatten.minmax}"
-    # p "height distribution = #{@height_map.flatten.group_by{|e| e.round(1)}.sort.map{|k,v| [k, v.length]}}"
-    # p "************************"
-    # p "************************"
-    # p "temp_minmx = #{@temperature_map.flatten.minmax}"
-    # p "temp distribution = #{@temperature_map.flatten.group_by{|e| e.round(1)}.sort.map{|k,v| [k, v.length]}}"
-    # p "************************"
-    # p "************************"
-    # p "moisture_minmx = #{@moisture_map.flatten.minmax}"
-    # p "moisture distribution = #{@moisture_map.flatten.group_by{|e| e.round(1)}.sort.map{|k,v| [k, v.length]}}"
-    # p "************************"
     map
   end
 
@@ -102,10 +81,6 @@ class WorldMap < GenericMap
       end
       x += 1
     end
-    # p "************************"
-    # p "minmx = #{map.flatten.minmax}"
-    # p "distribution = #{map.flatten.group_by{|e| e.round(1)}.sort.map{|k,v| [k, v.length]}}"
-    # p "************************"
     map
   end
 end
