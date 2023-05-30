@@ -11,16 +11,22 @@ class WorldMap < GenericMap
     generate_temperature_map
     generate_moisture_map
     map = []
-    (0...@width).each do |x|
+
+    x = 0
+    while x < @width
       map[x] = []
-      (0...@height).each do |y|
+      y = 0
+      while y < @height
         tile = WorldTile.new(x: x, y: y, size: @tile_size)
         tile.height_value = @height_map[x][y]
         tile.temperature_value = @temperature_map[x][y]
         tile.moisture_value = @moisture_map[x][y]
         map[x][y] = tile
         @sprites << tile.sprite
+        y += 1
       end
+      x += 1
+      Fiber.yield
     end
     map
   end
@@ -80,6 +86,7 @@ class WorldMap < GenericMap
         y += 1
       end
       x += 1
+      Fiber.yield
     end
     map
   end

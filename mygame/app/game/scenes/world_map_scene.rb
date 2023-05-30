@@ -1,34 +1,39 @@
 module Scene
-  #TODO refactor this and PlayMapScene into a MapScene
+  # TODO: refactor this and PlayMapScene into a MapScene
   class << self
     def world_map_tick(args)
-      @map_generated ||= false
-      setup(args) unless @map_generated
-      assign_world_map_sprite(args)
-      try_map_click(args)
-      tile_info_window(args.inputs.mouse.x, args.inputs.mouse.y, args)
-      ask_start_location(args)
-      try_button_click(args.state.select_start_button, args)
-      try_button_click(args.state.select_cancel_button, args)
+      args.state.map_displayed ||= {}
+      args.state.world_map_generated ||= false
+      setup(args) unless args.state.world_map_generated
+      set_render_target(:world_map, World.instance.world_map, args) if args.state.world_map_generated
+      args.outputs.sprites << args.state.world_map_sprite
+      # try_map_click(args)
+      # tile_info_window(args.inputs.mouse.x, args.inputs.mouse.y, args)
+      # ask_start_location(args)
+      # try_button_click(args.state.select_start_button, args)
+      # try_button_click(args.state.select_cancel_button, args)
     end
 
     private
 
     def setup(args)
-      @map_generated = true
+      args.render_target(:world_map)
       load_world(args)
+      args.state.world_map_sprite = {
+        x: 0,
+        y: 0,
+        w: 1280,
+        h: 720,
+        path: :world_map
+      }
     end
 
     def load_world(args)
-      world = World.instance
-      world.generate_world_map
-      set_render_target(:world_map, world.world_map, args)
-    end
-
-    def set_render_target(target_name, primitives, args)
-      args.render_target(target_name).primitives << primitives
-      args.render_target(target_name).w = 1280
-      args.render_target(target_name).h = 720
+      @world_fiber ||= Fiber.new do
+        World.instance.generate_world_map
+      end
+      @world_fiber.resume
+      args.state.world_map_generated = !@world_fiber&.alive?
     end
 
     def tile_info_window(x, y, args)
@@ -98,17 +103,6 @@ module Scene
       return unless args.inputs.mouse.click && args.state.clicked_tile.nil?
 
       args.state.clicked_tile = World.instance.get_tile_at(args.inputs.mouse.x, args.inputs.mouse.y)
-    end
-
-    def assign_world_map_sprite(args)
-      args.state.world_map_sprite = {
-        x: 0,
-        y: 0,
-        w: 1280,
-        h: 720,
-        path: args.state.selected_layer
-      }
-      args.outputs.sprites << args.state.world_map_sprite
     end
   end
 end

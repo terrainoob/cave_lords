@@ -3,6 +3,7 @@
 require 'app/requires.rb'
 
 def tick(args)
+  GC.disable
   args.outputs.labels << {
     x: 30,
     y: 30.from_top,
@@ -12,12 +13,12 @@ def tick(args)
   assign_default_state(args.state) if args.tick_count.zero?
   handle_input(args)
   select_scene(args)
+  GC.start
 end
 
 def assign_default_state(state)
   state.current_scene ||= :main_menu
   state.next_scene ||= :main_menu
-  state.selected_layer ||= :world_map
   state.clicked_tile ||= nil
   state.debug ||= false
 end

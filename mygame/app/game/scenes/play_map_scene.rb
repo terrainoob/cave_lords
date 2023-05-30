@@ -47,12 +47,6 @@ module Scene
       @sprite_height = 1440 * args.state.camera.scale
     end
 
-    def set_render_target(target_name, primitives, args)
-      args.render_target(target_name).primitives << primitives
-      args.render_target(target_name).w = 1280
-      args.render_target(target_name).h = 720
-    end
-
     def generate_play_map(args)
       return if @selected_world_tile.nil?
 
