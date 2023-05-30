@@ -7,11 +7,11 @@ module Scene
       setup(args) unless args.state.world_map_generated
       set_render_target(:world_map, World.instance.world_map, args) if args.state.world_map_generated
       args.outputs.sprites << args.state.world_map_sprite
-      # try_map_click(args)
-      # tile_info_window(args.inputs.mouse.x, args.inputs.mouse.y, args)
-      # ask_start_location(args)
-      # try_button_click(args.state.select_start_button, args)
-      # try_button_click(args.state.select_cancel_button, args)
+      try_map_click(args)
+      tile_info_window(args.inputs.mouse.x, args.inputs.mouse.y, args)
+      ask_start_location(args)
+      try_button_click(args.state.select_start_button, args)
+      try_button_click(args.state.select_cancel_button, args)
     end
 
     private
