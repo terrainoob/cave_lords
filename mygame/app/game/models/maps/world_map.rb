@@ -26,7 +26,10 @@ class WorldMap < GenericMap
         y += 1
       end
       x += 1
-      Fiber.yield
+      begin
+        Fiber.yield
+      rescue FiberError
+      end
     end
     map
   end
@@ -86,7 +89,10 @@ class WorldMap < GenericMap
         y += 1
       end
       x += 1
-      Fiber.yield
+      begin
+        Fiber.yield
+      rescue FiberError => e
+      end
     end
     map
   end
