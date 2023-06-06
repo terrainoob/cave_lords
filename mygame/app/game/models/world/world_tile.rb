@@ -7,8 +7,8 @@ class WorldTile < Tile
     @temperature_value = nil
     @moisture_value = nil
     @biome = nil
-    @sprite_sheet_manager = SpriteSheetManager.new('sprites/biomes.png')
-    @sprite_sheet_manager.sprite_size = 4
+    @sprite_sheet_manager = SpriteSheetManager.new('sprites/landscape_tileset.png')
+    @sprite_sheet_manager.sprite_size = 8
   end
 
   def to_json(*_args)
@@ -26,7 +26,8 @@ class WorldTile < Tile
 
   def sprite
     determine_biome
-    hash = @sprite_sheet_manager.sprite_hash(@sprite_col, @sprite_row, 2.5)
+    # hash = @sprite_sheet_manager.sprite_hash(@sprite_col, @sprite_row, 2.5)
+    hash = @sprite_sheet_manager.sprite_hash(@sprite_col, @sprite_row, 1.25)
     hash[:x] = @x * @size
     hash[:y] = @y * @size
     hash
