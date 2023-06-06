@@ -7,6 +7,8 @@ class WorldMap < GenericMap
   private
 
   def generate_map
+    @current_progress = 0
+    @max_progress = @width * 3
     generate_height_map
     generate_temperature_map
     generate_moisture_map
@@ -26,8 +28,9 @@ class WorldMap < GenericMap
         y += 1
       end
       x += 1
+      @current_progress += 1
       begin
-        Fiber.yield
+        Fiber.yield({ current_progress: @current_progress, max_progress: @max_progress })
       rescue FiberError
       end
     end
@@ -89,8 +92,9 @@ class WorldMap < GenericMap
         y += 1
       end
       x += 1
+      @current_progress += 1
       begin
-        Fiber.yield
+        Fiber.yield({ current_progress: @current_progress, max_progress: @max_progress })
       rescue FiberError => e
       end
     end

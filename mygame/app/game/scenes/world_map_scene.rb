@@ -2,6 +2,9 @@ module Scene
   # TODO: refactor this and PlayMapScene into a MapScene
   class << self
     def world_map_tick(args)
+      create_progress_bar(args) if args.state.progress_bar.nil?
+      @progress ||= { current_progress: 0, max_progress: 1 }
+      progress_tick(args) unless args.state.world_map_generated
       args.state.map_displayed ||= {}
       args.state.world_map_generated ||= false
       setup(args) unless args.state.world_map_generated
@@ -12,6 +15,12 @@ module Scene
       ask_start_location(args)
       try_button_click(args.state.select_start_button, args)
       try_button_click(args.state.select_cancel_button, args)
+    end
+
+    def progress_tick(args)
+      # @progress += 1
+      args.state.progress_bar[:primitives][0][:w] = 300.0 * (@progress[:current_progress] / @progress[:max_progress])
+      args.outputs.primitives << args.state.progress_bar[:primitives]
     end
 
     private
@@ -32,7 +41,7 @@ module Scene
       @world_fiber ||= Fiber.new do
         World.instance.generate_world_map
       end
-      @world_fiber.resume
+      @progress = @world_fiber.resume
       args.state.world_map_generated = !@world_fiber&.alive?
     end
 
@@ -103,6 +112,19 @@ module Scene
       return unless args.inputs.mouse.click && args.state.clicked_tile.nil?
 
       args.state.clicked_tile = World.instance.get_tile_at(args.inputs.mouse.x, args.inputs.mouse.y)
+    end
+
+    def create_progress_bar(args)
+      x = 640
+      y = 360
+      args.state.progress_bar = {
+        text: 'Loading World',
+        primitives: [
+          { anchor_x: 0.5, anchor_y: 0.5, x: x, y: y, w: 300, h: 50, r: 50, g: 200, b: 100, primitive_marker: :solid }, # sets definition for solid (which fills the bar with gray)
+          { anchor_x: 0.5, anchor_y: 0.5, x: x, y: y, text: 'Loading World', size_enum: 2, alignment_enum: 1, primitive_marker: :label }, # sets definition for label, positions inside border
+          { anchor_x: 0.5, anchor_y: 0.5, x: x, y: y, w: 300, h: 50, primitive_marker: :border } # sets definition of border
+        ]
+      }
     end
   end
 end
