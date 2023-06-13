@@ -1,3 +1,4 @@
+require "/lib/giatros/giatros_requires.rb"
 require "#{File.dirname(__FILE__)}/game/lib/levis_lib.rb"
 require "#{File.dirname(__FILE__)}/game/lib/sprite_sheet_manager.rb"
 require "#{File.dirname(__FILE__)}/game/gui/gui_elements/button.rb"

@@ -4,16 +4,21 @@ require 'app/requires.rb'
 
 def tick(args)
   GC.disable
-  args.outputs.labels << {
-    x: 30,
-    y: 30.from_top,
-    text: "#{$gtk.current_framerate.to_sf}"
-  }
-
   assign_default_state(args.state) if args.tick_count.zero?
   handle_input(args)
   select_scene(args)
+
+  debug_display(args) unless $gtk.production?
+
   GC.start
+end
+
+def debug_display(args)
+  args.outputs.labels <<
+    [
+      Giatros::Frametimer.frametime_label,
+      Giatros::Frametimer.fps_label
+    ]
 end
 
 def assign_default_state(state)
