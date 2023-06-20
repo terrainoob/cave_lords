@@ -1,5 +1,5 @@
 class World
-  attr_reader :tiles, :world_width, :world_height, :tile_size, :tiles
+  attr_reader :tiles, :world_width, :world_height, :tile_size, :tiles, :rivers
 
   def self.instance
     @instance ||= World.new
@@ -64,5 +64,20 @@ class World
       seed: @seed
     )
     @tiles = @world_map.map
+    generate_rivers
+  end
+
+  def generate_rivers
+    @rivers = []
+    river_generator = RiverGenerator.new
+    x_start = 50
+    y_start = 50
+    50.times do
+      x_end = x_start + rand(11) + 10
+      y_end = y_start + rand(11) + 10
+      @rivers << river_generator.generate({ x: x_start, y: y_start }, { x: x_end, y: y_end })
+      x_start = x_end
+      y_start = y_end
+    end
   end
 end
