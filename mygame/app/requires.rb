@@ -1,4 +1,9 @@
-require "/lib/giatros/giatros_requires.rb"
+if $gtk
+  require "/lib/giatros/frametimer.rb"
+  require "/lib/giatros/array_median.rb"
+  require "/lib/giatros/array_sum.rb"
+  require "/lib/giatros/ducks.rb"
+end
 require "#{File.dirname(__FILE__)}/game/lib/levis_lib.rb"
 require "#{File.dirname(__FILE__)}/game/lib/sprite_sheet_manager.rb"
 require "#{File.dirname(__FILE__)}/game/gui/gui_elements/button.rb"
