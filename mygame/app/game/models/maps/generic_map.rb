@@ -1,5 +1,5 @@
 class GenericMap
-  attr_accessor :sprites
+  attr_accessor :sprites, :width, :height
 
   def initialize(width:, height:, tile_size:, seed:)
     @width = width
