@@ -10,6 +10,7 @@ def tick(args)
 
   debug_display(args) unless $gtk.production?
 
+  GC.enable
   GC.start
 end
 
