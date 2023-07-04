@@ -6,6 +6,7 @@ if $gtk
 end
 require "#{File.dirname(__FILE__)}/game/lib/levis_lib.rb"
 require "#{File.dirname(__FILE__)}/game/lib/sprite_sheet_manager.rb"
+require "#{File.dirname(__FILE__)}/game/lib/heap.rb"
 require "#{File.dirname(__FILE__)}/game/lib/a_star.rb"
 require "#{File.dirname(__FILE__)}/game/gui/gui_elements/button.rb"
 require "#{File.dirname(__FILE__)}/game/gui/button_defs.rb"

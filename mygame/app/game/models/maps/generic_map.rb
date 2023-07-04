@@ -10,6 +10,8 @@ class GenericMap
   end
 
   def map
+    # TODO: don't do this automatically! Expose the .generate_map and call that directly so
+    # it's more explicit and declarative in the code.
     @map ||= generate_map
   end
 
@@ -21,7 +23,7 @@ class GenericMap
     return nil if x.negative? || y.negative?
     return nil if x > @width || y > @height
 
-    @map[x][y] if @map
+    @map[x][y] if @map && @map[x]
   end
 
   def get_neighbors(tile)
@@ -31,6 +33,7 @@ class GenericMap
       (-1..1).each do |y_offset|
         y_check = tile.y + y_offset
         next if x_check == tile.x && y_check == tile.y
+
         neighbor = get_tile_at(x_check, y_check)
         neighbors << neighbor if neighbor
       end

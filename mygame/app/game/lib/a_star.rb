@@ -1,31 +1,51 @@
+# most of this originally developed by kfischer_okarin here:
+# https://github.com/kfischer-okarin/dragon_skeleton/blob/main/lib/dragon_skeleton/pathfinding/a_star.rb
+
 class AStar
   def find_path(start_tile, destination_tile, grid)
-    @destination_tile = destination_tile
-    @open = [{ tile: start_tile, f_score: 0, g_score: 0, h_score: 0 }]
-    @closed = []
+    # @destination_tile = destination_tile
+    came_from = { start_tile => nil }
+    @open = Heap.new
+    @open.insert(start_tile, 0)
+    cost_so_far = { start_tile => 0 }
 
-    @open.each do |tile|
-      current_tile = find_lowest_f_cost
+    until @open.empty?
+      current_tile = @open.pop
+      break if current_tile == destination_tile
 
-      @closed << current_tile
+      grid.get_neighbors(current_tile).each do |neighbor|
+        # g_cost
+        neighbor_cost = calc_neighbor_cost(current_tile, neighbor)
+        total_cost_to_neighbor = cost_so_far[current_tile] + neighbor_cost
+        neighbor_already_found_cheaper = cost_so_far.include?(neighbor) && cost_so_far[neighbor] <= total_cost_to_neighbor
+        next if neighbor_already_found_cheaper
 
-      # exit if current_tile == @destination_tile
-      # add_open_tiles(grid, tile)
+        cost_so_far[neighbor] = total_cost_to_neighbor
+
+        # h_cost
+        h_cost = get_heuristic_cost(neighbor, destination_tile)
+        total_cost = total_cost_to_neighbor + h_cost
+        @open.insert(neighbor, total_cost)
+        came_from[neighbor] = current_tile
+      end
+      current_tile = destination_tile
     end
+
+    result = []
+    until current_tile.nil?
+      result.prepend(current_tile)
+      current_tile = came_from[current_tile]
+    end
+    result
   end
 
-  def find_lowest_f_cost
-    nil
-    # @open.tile_with_lowest_cost
+  def get_heuristic_cost(neighbor, destination_tile)
+    1
   end
 
-  def add_open_tiles(grid, tile)
-    neighbors = grid.get_neighbors(tile)
-    neighbors.each do |neighbor|
-      g_score = calc_g_cost(neighbor)
-      h_score = calc_h_cost(neighbor)
-      f_score = g_score + h_score
-      @open << { tile: neighbor, f_score: f_score, g_score: g_score, h_score: h_score }
-    end
+  def calc_neighbor_cost(current_tile, neighbor)
+    is_diagonal = (current_tile.x != neighbor.x) && (current_tile.y != neighbor.y)
+    cost_multiplier = is_diagonal ? 1.4 : 1
+    neighbor.size * cost_multiplier
   end
 end
