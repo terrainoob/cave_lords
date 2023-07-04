@@ -3,7 +3,6 @@
 require 'app/requires.rb'
 
 def tick(args)
-  GC.disable
   assign_default_state(args.state) if args.tick_count.zero?
   handle_input(args)
   select_scene(args)
@@ -12,6 +11,7 @@ def tick(args)
 
   GC.enable
   GC.start
+  GC.disable
 end
 
 def debug_display(args)
