@@ -1,5 +1,9 @@
-module Scene
+class Scene
   class << self
+    def symbol_to_class(scene_symbol)
+      Object.const_get(scene_symbol.to_s.split('_').map(&:capitalize).join)
+    end
+
     def set_render_target(target_name, primitives, args)
       return if args.state.map_displayed[target_name]
 

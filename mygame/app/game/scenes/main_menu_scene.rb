@@ -1,6 +1,6 @@
-module Scene
+class MainMenuScene < Scene
   class << self
-    def main_menu_tick(args)
+    def tick(args)
       create_buttons(args) if args.tick_count.zero?
       args.state.main_menu_buttons.each do |button|
         args.outputs.primitives << button.primitives
@@ -29,12 +29,12 @@ module Scene
     end
 
     def new_game_click(args)
-      args.state.next_scene = :world_map
+      args.state.next_scene = :world_map_scene
     end
 
     def resume_game_click(args)
       # TODO: we should return to where we came from, not necessarily play_map
-      args.state.next_scene = :play_map
+      args.state.next_scene = :play_map_scene
     end
 
     def save_game_click(args)
@@ -46,7 +46,7 @@ module Scene
     def load_game_click(args)
       json = $gtk.parse_json_file('world.sav')
       World.instance.load_from_json(json)
-      args.state.next_scene = :world_map
+      args.state.next_scene = :world_map_scene
     end
   end
 end

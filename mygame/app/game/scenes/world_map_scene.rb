@@ -1,7 +1,7 @@
-module Scene
+class WorldMapScene < Scene
   # TODO: refactor this and PlayMapScene into a MapScene
   class << self
-    def world_map_tick(args)
+    def tick(args)
       create_progress_bar(args) if args.state.progress_bar.nil?
       @progress ||= { current_progress: 0, max_progress: 1 }
       progress_tick(args) unless args.state.world_map_generated
@@ -95,7 +95,7 @@ module Scene
     end
 
     def start_button_click(args)
-      args.state.next_scene = :play_map
+      args.state.next_scene = :play_map_scene
     end
 
     def cancel_button_click(args)

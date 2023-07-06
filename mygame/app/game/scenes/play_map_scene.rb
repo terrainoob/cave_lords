@@ -1,10 +1,10 @@
-module Scene
+class PlayMapScene < Scene
   class << self
     def initialize
       @selected_world_tile = nil
     end
 
-    def play_map_tick(args)
+    def tick(args)
       args.state.current_scene ||= :world_map if args.state.clicked_tile.nil?
       @selected_world_tile = args.state.clicked_tile
 

@@ -23,19 +23,19 @@ def debug_display(args)
 end
 
 def assign_default_state(state)
-  state.current_scene ||= :main_menu
-  state.next_scene ||= :main_menu
+  state.current_scene ||= :main_menu_scene
+  state.next_scene ||= :main_menu_scene
   state.clicked_tile ||= nil
   state.debug ||= false
 end
 
 def handle_input(args)
-  args.state.next_scene = :main_menu if args.inputs.keyboard.key_down.escape
+  args.state.next_scene = :main_menu_scene if args.inputs.keyboard.key_down.escape
 end
 
 def select_scene(args)
   args.state.current_scene = args.state.next_scene
-  Scene.send("#{args.state.current_scene}_tick", args)
+  Scene.symbol_to_class(args.state.current_scene).tick(args)
 end
 
 $gtk.reset
