@@ -18,7 +18,8 @@ def debug_display(args)
   args.outputs.labels <<
     [
       Giatros::Frametimer.frametime_label,
-      Giatros::Frametimer.fps_label
+      Giatros::Frametimer.fps_label,
+      { y: $gtk.args.grid.top - 40, r: 255, text: "DR v#{$gtk.version}" }
     ]
 end
 
