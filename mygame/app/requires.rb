@@ -4,6 +4,8 @@ if $gtk
   require "/lib/giatros/array_sum.rb"
   require "/lib/giatros/ducks.rb"
 end
+require "#{File.dirname(__FILE__)}/game/lib/utilities/input.rb"
+require "#{File.dirname(__FILE__)}/game/lib/utilities/camera.rb"
 require "#{File.dirname(__FILE__)}/game/lib/levis_lib.rb"
 require "#{File.dirname(__FILE__)}/game/lib/sprite_sheet_manager.rb"
 require "#{File.dirname(__FILE__)}/game/lib/heap.rb"
