@@ -6,7 +6,7 @@ module Utilities
 
     def adjust_camera(scale_increment = 0.1, pan_increment = 10)
       zoom(scale_increment)
-      camera.scale ||= 4
+      camera.scale ||= @initial_camera_scale
       pan(pan_increment)
     end
 

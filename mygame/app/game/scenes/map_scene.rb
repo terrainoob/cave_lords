@@ -4,8 +4,8 @@ class MapScene < Scene
 
   class << self
     def set_sprite_offsets
-      @sprite_width = 2560 * camera.scale
-      @sprite_height = 1440 * camera.scale
+      @sprite_width = @map_sprite_width * camera.scale
+      @sprite_height = @map_sprite_height * camera.scale
 
       @x_offset = 0
       @y_offset = 0

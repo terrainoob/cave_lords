@@ -10,6 +10,9 @@ class WorldMapScene < MapScene
     private
 
     def set_defaults
+      @initial_camera_scale ||= 1
+      @map_sprite_width = 1280
+      @map_sprite_height = 720
       create_progress_bar if args.state.progress_bar.nil?
       @progress ||= { current_progress: 0, max_progress: 1 }
       progress_tick unless args.state.world_map_generated
