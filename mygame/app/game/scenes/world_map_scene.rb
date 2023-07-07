@@ -1,45 +1,53 @@
-module Scene
-  # TODO: refactor this and PlayMapScene into a MapScene
+class WorldMapScene < MapScene
   class << self
-    def world_map_tick(args)
-      create_progress_bar(args) if args.state.progress_bar.nil?
-      @progress ||= { current_progress: 0, max_progress: 1 }
-      progress_tick(args) unless args.state.world_map_generated
-      args.state.map_displayed ||= {}
-      args.state.world_map_generated ||= false
-      setup(args) unless args.state.world_map_generated
-      set_render_target(:world_map, World.instance.world_map, args) if args.state.world_map_generated
-      args.outputs.sprites << args.state.world_map_sprite
-      args.outputs.lines << args.state.rivers
-      try_map_click(args)
-      tile_info_window(args.inputs.mouse.x, args.inputs.mouse.y, args)
-      ask_start_location(args)
-      try_button_click(args.state.select_start_button, args)
-      try_button_click(args.state.select_cancel_button, args)
-    end
-
-    def progress_tick(args)
-      # @progress += 1
-      args.state.progress_bar[:primitives][0][:w] = 300.0 * (@progress[:current_progress] / @progress[:max_progress])
-      args.outputs.primitives << args.state.progress_bar[:primitives]
+    def tick
+      set_defaults
+      setup unless args.state.world_map_generated
+      draw
+      handle_input
     end
 
     private
 
-    def setup(args)
-      args.render_target(:world_map)
-      load_world(args)
-      args.state.world_map_sprite = {
-        x: 0,
-        y: 0,
-        w: 1280,
-        h: 720,
-        path: :world_map
-      }
+    def set_defaults
+      create_progress_bar if args.state.progress_bar.nil?
+      @progress ||= { current_progress: 0, max_progress: 1 }
+      progress_tick unless args.state.world_map_generated
+      args.state.map_displayed ||= {}
+      args.state.world_map_generated ||= false
+    end
+
+    def progress_tick
+      args.state.progress_bar[:primitives][0][:w] = 300.0 * (@progress[:current_progress] / @progress[:max_progress])
+      args.outputs.primitives << args.state.progress_bar[:primitives]
+    end
+
+    def handle_input
+      try_map_click
+      ask_start_location
+      try_button_click(args.state.select_start_button)
+      try_button_click(args.state.select_cancel_button)
+    end
+
+    def draw
+      handle_camera
+      draw_rivers
+      set_render_target(:world_map, World.instance.world_map) if args.state.world_map_generated
+      draw_render_targets(%i[world_map])
+      tile_info_window(args.inputs.mouse.x, args.inputs.mouse.y)
+    end
+
+    def draw_rivers
+      args.outputs.lines << args.state.rivers
+    end
+
+    def setup
+      args.render_target(:world_map) # have to call this here so we don't get the pink squares on map generation
+      load_world
       args.state.rivers = World.instance.rivers
     end
 
-    def load_world(args)
+    def load_world
       @world_fiber ||= Fiber.new do
         World.instance.generate_world_map
       end
@@ -47,7 +55,7 @@ module Scene
       args.state.world_map_generated = !@world_fiber&.alive?
     end
 
-    def tile_info_window(x, y, args)
+    def tile_info_window(x, y)
       return if x > 1280 || y > 720
 
       if args.state.clicked_tile.nil?
@@ -65,7 +73,7 @@ module Scene
       args.outputs.labels << { x: 990, y: 50, text: "Precipitation: #{(tile.moisture_value * 100).floor}%" }
     end
 
-    def ask_start_location(args)
+    def ask_start_location
       return if args.state.clicked_tile.nil?
 
       x = 1280 / 2
@@ -74,10 +82,10 @@ module Scene
       args.labels << { x: x + 20, y: y + 20, text: "Start here?" }
       col = (x / 53).floor
       row = (y / 60).floor
-      create_yes_no_buttons(col, row, args)
+      create_yes_no_buttons(col, row)
     end
 
-    def create_yes_no_buttons(col, row, args)
+    def create_yes_no_buttons(col, row)
       args.state.select_start_button = GuiElements.button(
         { display_col: col, display_row: row, display_text: 'Yes' },
         {},
@@ -94,29 +102,29 @@ module Scene
       args.outputs.primitives << args.state.select_cancel_button.primitives
     end
 
-    def start_button_click(args)
-      args.state.next_scene = :play_map
+    def start_button_click
+      args.state.next_scene = :play_map_scene
     end
 
-    def cancel_button_click(args)
+    def cancel_button_click
       args.state.clicked_tile = nil
     end
 
-    def try_button_click(button, args)
+    def try_button_click(button)
       return unless args.inputs.mouse.click
 
       return unless button&.rect
 
-      send(button.m, args) if args.inputs.mouse.intersect_rect? button.rect
+      send(button.m) if args.inputs.mouse.intersect_rect? button.rect
     end
 
-    def try_map_click(args)
+    def try_map_click
       return unless args.inputs.mouse.click && args.state.clicked_tile.nil?
 
       args.state.clicked_tile = World.instance.get_tile_at(args.inputs.mouse.x, args.inputs.mouse.y)
     end
 
-    def create_progress_bar(args)
+    def create_progress_bar
       x = 640
       y = 360
       args.state.progress_bar = {
