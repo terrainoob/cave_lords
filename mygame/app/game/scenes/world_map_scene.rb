@@ -1,20 +1,20 @@
 class WorldMapScene < MapScene
   class << self
     def tick
+      set_defaults
+      setup unless args.state.world_map_generated
+      draw
+      handle_input
+    end
+
+    private
+
+    def set_defaults
       create_progress_bar if args.state.progress_bar.nil?
       @progress ||= { current_progress: 0, max_progress: 1 }
       progress_tick unless args.state.world_map_generated
       args.state.map_displayed ||= {}
       args.state.world_map_generated ||= false
-      setup unless args.state.world_map_generated
-      set_render_target(:world_map, World.instance.world_map) if args.state.world_map_generated
-      args.outputs.sprites << args.state.world_map_sprite
-      args.outputs.lines << args.state.rivers
-      try_map_click
-      tile_info_window(args.inputs.mouse.x, args.inputs.mouse.y)
-      ask_start_location
-      try_button_click(args.state.select_start_button)
-      try_button_click(args.state.select_cancel_button)
     end
 
     def progress_tick
@@ -22,18 +22,28 @@ class WorldMapScene < MapScene
       args.outputs.primitives << args.state.progress_bar[:primitives]
     end
 
-    private
+    def handle_input
+      try_map_click
+      ask_start_location
+      try_button_click(args.state.select_start_button)
+      try_button_click(args.state.select_cancel_button)
+    end
+
+    def draw
+      handle_camera
+      draw_rivers
+      set_render_target(:world_map, World.instance.world_map) if args.state.world_map_generated
+      draw_render_targets(%i[world_map])
+      tile_info_window(args.inputs.mouse.x, args.inputs.mouse.y)
+    end
+
+    def draw_rivers
+      args.outputs.lines << args.state.rivers
+    end
 
     def setup
-      args.render_target(:world_map)
+      args.render_target(:world_map) # have to call this here so we don't get the pink squares on map generation
       load_world
-      args.state.world_map_sprite = {
-        x: 0,
-        y: 0,
-        w: 1280,
-        h: 720,
-        path: :world_map
-      }
       args.state.rivers = World.instance.rivers
     end
 

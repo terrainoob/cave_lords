@@ -14,5 +14,11 @@ class Scene
       args.render_target(target_name).h = 720
       args.state.map_displayed[target_name] = true
     end
+
+    def draw_render_targets(targets)
+      targets.each do |target|
+        draw_sprite(target)
+      end
+    end
   end
 end

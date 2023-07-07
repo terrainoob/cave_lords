@@ -11,7 +11,13 @@ class MapScene < Scene
       @y_offset = 0
     end
 
-    def paint_sprite(path_name)
+    def handle_camera
+      adjust_camera
+      set_sprite_offsets
+    end
+
+    def draw_sprite(path_name)
+      args.outputs.sprites <<
       {
         x: @x_offset + (camera.offset_x / 2),
         y: @y_offset + (camera.offset_y / 2),
