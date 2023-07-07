@@ -1,7 +1,7 @@
 module Utilities
   module Camera
     def camera
-      $args.state.camera
+      args.state.camera
     end
 
     def adjust_camera(scale_increment = 0.1, pan_increment = 10)

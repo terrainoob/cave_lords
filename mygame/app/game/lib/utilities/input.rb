@@ -1,15 +1,15 @@
 module Utilities
   module Input
     def keyboard
-      $args.inputs.keyboard
+      args.inputs.keyboard
     end
 
     def mouse
-      $args.inputs.mouse
+      args.inputs.mouse
     end
 
     def inputs
-      $args.inputs
+      args.inputs
     end
   end
 end

@@ -19,7 +19,7 @@ def debug_display(args)
     [
       Giatros::Frametimer.frametime_label,
       Giatros::Frametimer.fps_label,
-      { y: $gtk.args.grid.top - 40, r: 255, text: "DR v#{$gtk.version}" }
+      { y: args.grid.top - 40, r: 255, text: "DR v#{$gtk.version}" }
     ]
 end
 
@@ -36,7 +36,7 @@ end
 
 def select_scene(args)
   args.state.current_scene = args.state.next_scene
-  Scene.symbol_to_class(args.state.current_scene).tick(args)
+  Scene.symbol_to_class(args.state.current_scene).tick
 end
 
 $gtk.reset
