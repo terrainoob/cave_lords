@@ -1,5 +1,12 @@
 class PlayMapScene < MapScene
   class << self
+    def target_defs
+      [
+        { name: :play_map, value: @play_map.sprites, condition: @play_map },
+        { name: :pawn_map, value: args.state.pawns.map(&:sprite), condition: args.state.pawns }
+      ]
+    end
+
     def initialize
       @selected_world_tile = nil
     end
@@ -23,7 +30,7 @@ class PlayMapScene < MapScene
     def draw
       draw_gui
       handle_camera
-      set_render_targets
+      create_render_targets
       draw_render_targets(%i[play_map pawn_map])
     end
 
@@ -42,11 +49,6 @@ class PlayMapScene < MapScene
 
     def draw_gui
       args.outputs.labels << { x: 990, y: 200, text: "Biome: #{@selected_world_tile.biome}" }
-    end
-
-    def set_render_targets
-      set_render_target(:play_map, @play_map.sprites) if @play_map
-      set_render_target(:pawn_map, args.state.pawns.map(&:sprite)) if args.state.pawns
     end
 
     def spawn_a_pawn

@@ -1,7 +1,14 @@
 class WorldMapScene < MapScene
   class << self
+    def target_defs
+      [
+        { name: :world_map, value: World.instance.world_map, condition: args.state.world_map_generated }
+      ]
+    end
+
     def tick
       set_defaults
+      handle_progress_bar
       setup unless args.state.world_map_generated
       draw
       handle_input
@@ -13,11 +20,14 @@ class WorldMapScene < MapScene
       @initial_camera_scale ||= 1
       @map_sprite_width = 1280
       @map_sprite_height = 720
+      args.state.map_displayed ||= {}
+      args.state.world_map_generated ||= false
+    end
+
+    def handle_progress_bar
       create_progress_bar if args.state.progress_bar.nil?
       @progress ||= { current_progress: 0, max_progress: 1 }
       progress_tick unless args.state.world_map_generated
-      args.state.map_displayed ||= {}
-      args.state.world_map_generated ||= false
     end
 
     def progress_tick
@@ -35,10 +45,14 @@ class WorldMapScene < MapScene
     def draw
       handle_camera
       draw_rivers
-      set_render_target(:world_map, World.instance.world_map) if args.state.world_map_generated
+      create_render_targets
       draw_render_targets(%i[world_map])
       tile_info_window(args.inputs.mouse.x, args.inputs.mouse.y)
     end
+
+    # def create_render_targets
+    #   set_render_target(:world_map, World.instance.world_map) if args.state.world_map_generated
+    # end
 
     def draw_rivers
       args.outputs.lines << args.state.rivers
