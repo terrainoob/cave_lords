@@ -1,11 +1,15 @@
 module Utilities
   module Camera
+    def self.reset_scale(scale)
+      $args.state.camera.scale = scale
+    end
+
     def camera
       args.state.camera
     end
 
     def adjust_camera(scale_increment = 0.1, pan_increment = 10)
-      camera.scale ||= @initial_camera_scale
+      # camera.scale ||= @initial_camera_scale
       zoom(scale_increment)
       pan(pan_increment)
     end

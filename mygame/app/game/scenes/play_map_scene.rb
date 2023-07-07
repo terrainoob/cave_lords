@@ -12,7 +12,7 @@ class PlayMapScene < MapScene
     end
 
     def tick
-      set_defaults
+      set_defaults if args.state.defaults_needed
       args.state.current_scene ||= :world_map if args.state.clicked_tile.nil?
       @selected_world_tile = args.state.clicked_tile
       generate_play_map unless @play_map
@@ -22,9 +22,10 @@ class PlayMapScene < MapScene
     private
 
     def set_defaults
-      @initial_camera_scale ||= 4
+      Utilities::Camera.reset_scale(4)
       @map_sprite_width = 2560
       @map_sprite_height = 1440
+      args.state.defaults_needed = false
     end
 
     def draw

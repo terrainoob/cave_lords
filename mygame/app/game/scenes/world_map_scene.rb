@@ -7,7 +7,7 @@ class WorldMapScene < MapScene
     end
 
     def tick
-      set_defaults
+      set_defaults if args.state.defaults_needed
       handle_progress_bar
       setup unless args.state.world_map_generated
       draw
@@ -17,11 +17,12 @@ class WorldMapScene < MapScene
     private
 
     def set_defaults
-      @initial_camera_scale ||= 1
+      Utilities::Camera.reset_scale(1)
       @map_sprite_width = 1280
       @map_sprite_height = 720
       args.state.map_displayed ||= {}
       args.state.world_map_generated ||= false
+      args.state.defaults_needed = false
     end
 
     def handle_progress_bar
