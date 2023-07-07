@@ -23,7 +23,12 @@ class PlayMapScene < MapScene
     def generate_play_map
       return if @selected_world_tile.nil?
 
-      @play_map = PlayMap.new(width: 100, height: 50, tile_size: 4, seed: 123456789)
+      @play_map = PlayMap.new(
+        width: Config::PLAYMAP_WIDTH,
+        height: Config::PLAYMAP_HEIGHT,
+        tile_size: Config::PLAYMAP_TILE_SIZE,
+        seed: 123456789
+      )
       @play_map.map
       spawn_a_pawn
     end
