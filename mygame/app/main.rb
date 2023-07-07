@@ -6,6 +6,7 @@ def tick(args)
   assign_default_state(args.state) if args.tick_count.zero?
   handle_input(args)
   select_scene(args)
+  Scene.symbol_to_class(args.state.current_scene).tick if args.state.current_scene
 
   debug_display(args) unless $gtk.production?
 
@@ -35,8 +36,10 @@ def handle_input(args)
 end
 
 def select_scene(args)
-  args.state.current_scene = args.state.next_scene
-  Scene.symbol_to_class(args.state.current_scene).tick
+  if args.state.current_scene != args.state.next_scene
+    args.state.current_scene = args.state.next_scene
+    args.state.defaults_needed = true
+  end
 end
 
 $gtk.reset

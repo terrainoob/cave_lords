@@ -6,7 +6,15 @@ class Scene
       Object.const_get(scene_symbol.to_s.split('_').map(&:capitalize).join)
     end
 
-    def set_render_target(target_name, primitives)
+    def create_render_targets
+      return unless target_defs
+
+      target_defs.each do |target|
+        create_render_target(target[:name], target[:value]) if target[:condition]
+      end
+    end
+
+    def create_render_target(target_name, primitives)
       return if args.state.map_displayed[target_name]
 
       args.render_target(target_name).primitives.concat(primitives)
