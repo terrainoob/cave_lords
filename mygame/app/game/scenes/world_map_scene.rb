@@ -1,5 +1,4 @@
-class WorldMapScene < Scene
-  # TODO: refactor this and PlayMapScene into a MapScene
+class WorldMapScene < MapScene
   class << self
     def tick(args)
       create_progress_bar(args) if args.state.progress_bar.nil?
@@ -19,7 +18,6 @@ class WorldMapScene < Scene
     end
 
     def progress_tick(args)
-      # @progress += 1
       args.state.progress_bar[:primitives][0][:w] = 300.0 * (@progress[:current_progress] / @progress[:max_progress])
       args.outputs.primitives << args.state.progress_bar[:primitives]
     end

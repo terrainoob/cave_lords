@@ -1,7 +1,4 @@
-class PlayMapScene < Scene
-  extend Utilities::Input
-  extend Utilities::Camera
-
+class PlayMapScene < MapScene
   class << self
     def initialize
       @selected_world_tile = nil
@@ -13,7 +10,7 @@ class PlayMapScene < Scene
 
       args.outputs.labels << { x: 990, y: 200, text: "Biome: #{@selected_world_tile.biome}" }
       generate_play_map(args) unless @play_map
-      self.adjust_camera
+      adjust_camera
       set_sprite_offsets
       set_render_target(:play_map, @play_map.sprites, args) if @play_map
       set_render_target(:pawn_map, args.state.pawns.map(&:sprite), args) if args.state.pawns
@@ -22,16 +19,6 @@ class PlayMapScene < Scene
     end
 
     private
-
-    def set_sprite_offsets
-      @sprite_width = 2560 * camera.scale
-      @sprite_height = 1440 * camera.scale
-
-      # x_offset = (1280 - sprite_width) / 2
-      # y_offset = (720 - sprite_height) / 2
-      @x_offset = 0
-      @y_offset = 0
-    end
 
     def generate_play_map(args)
       return if @selected_world_tile.nil?
@@ -44,16 +31,6 @@ class PlayMapScene < Scene
     def spawn_a_pawn(args)
       args.state.pawns ||= []
       args.state.pawns << Pawn.new(x_pos: 50, y_pos: 50)
-    end
-
-    def paint_sprite(path_name)
-      {
-        x: @x_offset + (camera.offset_x / 2),
-        y: @y_offset + (camera.offset_y / 2),
-        w: @sprite_width,
-        h: @sprite_height,
-        path: path_name
-      }.to_sprite
     end
 
     def paint_pawns(args)
