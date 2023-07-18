@@ -1,8 +1,13 @@
 class WorldTile < Tile
-  attr_accessor :height_value, :temperature_value, :moisture_value, :biome
+  MINIMUM_RIVER_MOISTURE = 0.3
+  RIVER_START_PCT = 0.05
+
+  attr_accessor :height_value, :temperature_value, :moisture_value, :biome, :has_river, :river_start_tile
 
   def initialize(x:, y:, size:)
     super(x: x, y: y, size: size)
+    @has_river = false
+    @river_start_tile = false
     @height_value = nil
     @temperature_value = nil
     @moisture_value = nil
@@ -25,11 +30,11 @@ class WorldTile < Tile
   end
 
   def sprite
-    determine_biome
     # hash = @sprite_sheet_manager.sprite_hash(@sprite_col, @sprite_row, 2.5)
     hash = @sprite_sheet_manager.sprite_hash(@sprite_col, @sprite_row, 1.25)
     hash[:x] = @x * @size
     hash[:y] = @y * @size
+    hash.merge!({ r: 0, g: 0, b: 255, path: :pixel }) if @has_river
     hash
   end
 
@@ -42,8 +47,9 @@ class WorldTile < Tile
       break
     end
     @biome = found_def[:biome]
-    @sprite_col = found_def[:sprite_col] if found_def[:sprite_col]
-    @sprite_row = found_def[:sprite_row] if found_def[:sprite_row]
+    @sprite_col = found_def[:sprite_col]
+    @sprite_row = found_def[:sprite_row]
+    @river_start_tile = true if @moisture_value > MINIMUM_RIVER_MOISTURE && @biome == :mountain && rand > 1.0 - RIVER_START_PCT
   end
 
   def biome_found(definition)

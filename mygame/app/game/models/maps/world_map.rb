@@ -23,8 +23,9 @@ class WorldMap < GenericMap
         tile.height_value = @height_map[x][y]
         tile.temperature_value = @temperature_map[x][y]
         tile.moisture_value = @moisture_map[x][y]
+        tile.determine_biome
         map[x][y] = tile
-        @sprites << tile.sprite
+        # @sprites << tile.sprite
         y += 1
       end
       x += 1
@@ -34,6 +35,8 @@ class WorldMap < GenericMap
       rescue FiberError
       end
     end
+    generate_rivers(map)
+    generate_sprite_hash_array(map)
     map
   end
 
@@ -71,6 +74,19 @@ class WorldMap < GenericMap
 
   def generate_moisture_map
     @moisture_map = create_perlin_map({ octaves: 1, seed: @seed + 10 })
+  end
+
+  def generate_rivers(map)
+    river_generator = RiverGenerator.new
+    start_tiles = map.flatten.select(&:river_start_tile)
+    start_tiles.each do |start_tile|
+      start_tile.has_river = true
+      river_generator.generate(start_tile, map)
+    end
+  end
+
+  def generate_sprite_hash_array(tile_map)
+    @sprites = tile_map.flatten.map(&:sprite)
   end
 
   def create_perlin_map(opts)
