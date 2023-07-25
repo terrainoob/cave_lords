@@ -9,17 +9,25 @@ module Utilities
     end
 
     def adjust_camera(scale_increment = 0.1, pan_increment = 10)
+      camera.scale ||= 1
+      camera.x ||= 0
+      camera.y ||= 0
       # camera.scale ||= @initial_camera_scale
-      zoom(scale_increment)
-      pan(pan_increment)
+      zoom(scale_increment) if mouse.wheel
+      pan(pan_increment) if keyboard.left_right || keyboard.up_down
     end
 
     def zoom(scale_increment)
-      if keyboard.key_down.i || mouse.wheel&.y.to_i.positive?
+      camera.x += mouse.x * camera.scale
+      camera.y += mouse.y * camera.scale
+      if mouse.wheel&.y.to_i.positive?
         camera.scale += scale_increment
-      elsif keyboard.key_down.o || mouse.wheel&.y.to_i.negative?
+      elsif mouse.wheel&.y.to_i.negative?
         camera.scale -= scale_increment
       end
+      camera.x -= mouse.x * camera.scale
+      camera.y -= mouse.y * camera.scale
+      puts "mouse: #{mouse.x},#{mouse.y}, scale : #{camera.scale}, camera: #{camera.x},#{camera.y}"
     end
 
     def pan(pan_increment)

@@ -32,6 +32,9 @@ class World
   def tile_from_mouse_position(x, y, zoom_factor)
     tile_x = (x / (Config::WORLD_TILE_SIZE * zoom_factor)).floor
     tile_y = (y / (Config::WORLD_TILE_SIZE * zoom_factor)).floor
+    return nil if tile_x.negative? || tile_x > @tiles.length
+    return nil if tile_y.negative? || tile_y > @tiles[0].length
+
     @tiles[tile_x][tile_y]
   end
 
