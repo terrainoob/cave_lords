@@ -77,7 +77,7 @@ class WorldMapScene < MapScene
       return if x > 1280 || y > 720
 
       if args.state.clicked_tile.nil?
-        tile = World.instance.get_tile_at(x, y)
+        tile = World.instance.tile_from_mouse_position(x, y, args.state.camera.scale)
       else
         tile = args.state.clicked_tile
       end
@@ -139,7 +139,7 @@ class WorldMapScene < MapScene
     def try_map_click
       return unless args.inputs.mouse.click && args.state.clicked_tile.nil?
 
-      args.state.clicked_tile = World.instance.get_tile_at(args.inputs.mouse.x, args.inputs.mouse.y)
+      args.state.clicked_tile = World.instance.tile_from_mouse_position(args.inputs.mouse.x, args.inputs.mouse.y, args.state.camera.scale)
     end
 
     def create_progress_bar

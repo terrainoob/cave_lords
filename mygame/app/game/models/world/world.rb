@@ -29,9 +29,9 @@ class World
     end
   end
 
-  def get_tile_at(x, y)
-    tile_x = (x / Config::WORLD_TILE_SIZE).floor
-    tile_y = (y / Config::WORLD_TILE_SIZE).floor
+  def tile_from_mouse_position(x, y, zoom_factor)
+    tile_x = (x / (Config::WORLD_TILE_SIZE * zoom_factor)).floor
+    tile_y = (y / (Config::WORLD_TILE_SIZE * zoom_factor)).floor
     @tiles[tile_x][tile_y]
   end
 
