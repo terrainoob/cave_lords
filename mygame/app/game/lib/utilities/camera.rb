@@ -27,7 +27,6 @@ module Utilities
       end
       camera.x -= mouse.x * camera.scale
       camera.y -= mouse.y * camera.scale
-      puts "mouse: #{mouse.x},#{mouse.y}, scale : #{camera.scale}, camera: #{camera.x},#{camera.y}"
     end
 
     def pan(pan_increment)
