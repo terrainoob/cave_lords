@@ -83,11 +83,12 @@ class WorldMapScene < MapScene
       end
       return unless tile
 
-      args.outputs.primitives << { x: 980, y: 0, w: 300, h: 270, r: 150, g: 150, b: 150, a: 200, primitive_marker: :solid }
-      args.outputs.labels << { x: 990, y: 250, text: "Coordinates: #{tile.x}, #{tile.y}" }
-      args.outputs.labels << { x: 990, y: 200, text: "Biome: #{tile.biome}" }
-      args.outputs.labels << { x: 990, y: 100, text: "Temperature: #{tile.temperature_value.floor} C" }
+      args.outputs.primitives << { x: 980, y: 0, w: 300, h: 320, r: 150, g: 150, b: 150, a: 200, primitive_marker: :solid }
+      args.outputs.labels << { x: 990, y: 300, text: "Coordinates: #{tile.x}, #{tile.y}" }
+      args.outputs.labels << { x: 990, y: 250, text: "Biome: #{tile.biome}" }
+      args.outputs.labels << { x: 990, y: 200, text: "Has River: #{tile.has_river}" }
       args.outputs.labels << { x: 990, y: 150, text: "Height Value: #{tile.height_value.round(2)}" }
+      args.outputs.labels << { x: 990, y: 100, text: "Temperature: #{tile.temperature_value.floor} C" }
       args.outputs.labels << { x: 990, y: 50, text: "Precipitation: #{(tile.moisture_value * 100).floor}%" }
     end
 
