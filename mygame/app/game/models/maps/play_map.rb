@@ -8,6 +8,10 @@ class PlayMap < GenericMap
     if @selected_world_tile
       # select tileset based on biome
       # use wfc to generate random map from that tileset.
+      json = $gtk.read_file('sprites/punyworld-overworld-wfc.json')
+      tileset = LevisLibs::JSON.parse(json, symbolize_keys: true, extensions: true)
+      model = Wfc::SimpleTiledModel.new(tileset, 10, 10)
+      tiled_map = model.solve_all
     else
       puts "YOU DON'T HAVE A SELECTED WORLD TILE IN THE PLAYMAP GEN!!!  STUPID!!!"
     end

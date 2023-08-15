@@ -1,0 +1,9 @@
+[
+  {"identifier": 0, "edge_types": ["gggg","gggg","gggg","gggg"], "probability": 0.50},
+  {"identifier": 3, "edge_types": ["gggg","gggg","gppg","gggg"], "probability": 0.10},
+  {"identifier": 30, "edge_types": ["gppg","gggg","gppg","gggg"], "probability": 0.10},
+  {"identifier": 57, "edge_types": ["gppg","gggg","gggg","gggg"], "probability": 0.10},
+  {"identifier": 277, "edge_types": ["gggg","gwww","wwww","gggg"], "probability": 0.05},
+  {"identifier": 278, "edge_types": ["gggg","gwww","wwww","gwww"], "probability": 0.05},
+  {"identifier": 279, "edge_types": ["gwww","gwww","wwww","gggg"], "probability": 0.05}
+]

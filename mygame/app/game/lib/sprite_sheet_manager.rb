@@ -3,22 +3,32 @@
 # 2. all sprites on a sheet are the same size
 class SpriteSheetManager
   attr_accessor :sprite_size, :sprite_sheet_name
+  attr_reader :num_columns
 
   Sprite = Struct.new(:x, :y, :width, :height)
 
-  def initialize(sprite_sheet_name)
+  def initialize(sprite_sheet_name, num_columns = 0)
     @sprite = Sprite.new
     @sprite_size = 1
     @sprite_sheet_name = sprite_sheet_name
+    @num_columns = num_columns
+    @sheet_pixel_width = @num_columns * @sprite_size
   end
 
   def sprite(index_col, index_row)
     Sprite.new(
       index_col * @sprite_size,
       index_row * @sprite_size,
-      sprite_size,
-      sprite_size
+      @sprite_size,
+      @sprite_size
     )
+  end
+
+  def sprite_hash_by_index(index, scale_multiplier)
+    return if @num_columns.zero?
+
+    index_row, index_col = index.divmod(@num_columns)
+    sprite_hash(index_col, index_row, scale_multiplier)
   end
 
   def sprite_hash(index_col, index_row, scale_multiplier = 1.0)
