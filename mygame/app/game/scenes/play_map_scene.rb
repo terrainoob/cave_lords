@@ -2,8 +2,8 @@ class PlayMapScene < MapScene
   class << self
     def target_defs
       [
-        { name: :play_map, value: @play_map.sprites, condition: @play_map },
-        { name: :pawn_map, value: args.state.pawns.map(&:sprite), condition: args.state.pawns }
+        { name: :play_map, value: @scene_map.flatten.map(&:sprite), condition: @scene_map },
+        # { name: :pawn_map, value: args.state.pawns.map(&:sprite), condition: args.state.pawns }
       ]
     end
 
@@ -17,12 +17,13 @@ class PlayMapScene < MapScene
       @selected_world_tile = args.state.clicked_tile
       generate_play_map unless @play_map
       draw
+      # puts args.outputs.sprites
     end
 
     private
 
     def set_defaults
-      Utilities::Camera.reset_scale(16)
+      Utilities::Camera.reset_scale(4)
       @map_sprite_width = 2560
       @map_sprite_height = 1440
       args.state.defaults_needed = false
@@ -32,7 +33,8 @@ class PlayMapScene < MapScene
       draw_gui
       handle_camera
       create_render_targets
-      draw_render_targets(%i[play_map pawn_map])
+      # draw_render_targets(%i[play_map pawn_map])
+      draw_render_targets([:play_map])
     end
 
     def generate_play_map
@@ -51,19 +53,18 @@ class PlayMapScene < MapScene
     end
 
     def draw_map(tile_ids)
-      playmap = []
+      @scene_map = []
       x = 0
       while x < tile_ids.length
         y = 0
-        playmap[x] = []
+        @scene_map[x] = []
         while y < tile_ids[0].length
-          playmap[x][y] = Tile.new(index: tile_ids[x][y], x: x, y: y, size: 16)
+          @scene_map[x][y] = PlayMapTile.new(x: x, y: y, size: 16, index: tile_ids[x][y])
           y += 1
         end
         x += 1
       end
-      args.state.playmap = playmap
-      args.outputs.primitives << playmap.map(&:sprite)
+      args.state.playmap = @scene_map
     end
 
     def draw_gui

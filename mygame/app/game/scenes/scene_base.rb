@@ -17,9 +17,10 @@ class Scene
     def create_render_target(target_name, primitives)
       return if args.state.map_displayed[target_name]
 
-      args.render_target(target_name).primitives.concat(primitives)
       args.render_target(target_name).w = 1280
       args.render_target(target_name).h = 720
+      args.render_target(target_name).primitives.concat(primitives)
+      args.render_target(target_name).transient!
       args.state.map_displayed[target_name] = true
     end
 
